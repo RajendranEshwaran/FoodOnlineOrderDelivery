@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B4C4027C2E9EA0F200715410 /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDelivery" target */ = {
+		B4C402A12E9EAECB00715410 /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDelivery" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -40,14 +40,6 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B4C4025B2E9EA0F100715410 /* FoodOnlineOrderDelivery */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				B4C4027C2E9EA0F200715410 /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDelivery" target */,
-			);
-			path = FoodOnlineOrderDelivery;
-			sourceTree = "<group>";
-		};
 		B4C4026D2E9EA0F200715410 /* FoodOnlineOrderDeliveryTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = FoodOnlineOrderDeliveryTests;
@@ -56,6 +48,14 @@
 		B4C402772E9EA0F200715410 /* FoodOnlineOrderDeliveryUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = FoodOnlineOrderDeliveryUITests;
+			sourceTree = "<group>";
+		};
+		B4C4029C2E9EAECB00715410 /* FoodOnlineOrderDelivery */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B4C402A12E9EAECB00715410 /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDelivery" target */,
+			);
+			path = FoodOnlineOrderDelivery;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -88,7 +88,7 @@
 		B4C402502E9EA0F100715410 = {
 			isa = PBXGroup;
 			children = (
-				B4C4025B2E9EA0F100715410 /* FoodOnlineOrderDelivery */,
+				B4C4029C2E9EAECB00715410 /* FoodOnlineOrderDelivery */,
 				B4C4026D2E9EA0F200715410 /* FoodOnlineOrderDeliveryTests */,
 				B4C402772E9EA0F200715410 /* FoodOnlineOrderDeliveryUITests */,
 				B4C4025A2E9EA0F100715410 /* Products */,
@@ -121,7 +121,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B4C4025B2E9EA0F100715410 /* FoodOnlineOrderDelivery */,
+				B4C4029C2E9EAECB00715410 /* FoodOnlineOrderDelivery */,
 			);
 			name = FoodOnlineOrderDelivery;
 			packageProductDependencies = (
