@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 enum AppPages: String, Hashable {
-    case loginPage
+    case onboardingPage
     case signupPage
     case forgotPasswordPage
     case verificationPage
@@ -25,12 +25,13 @@ enum AppSheets: String, Identifiable {
 
 enum AppFullCovers: String, Identifiable {
     case testFullCover
+    case loginPage
     var id: String { return self.rawValue }
 }
 
 
 class Coordinator: ObservableObject {
-    @Published var currentPages: AppPages? = .loginPage
+    @Published var currentPages: AppPages? = .onboardingPage
     @Published var currentSheets: AppSheets?
     @Published var currentFullCover: AppFullCovers?
     @Published var navigationPath = NavigationPath()
@@ -75,7 +76,7 @@ class Coordinator: ObservableObject {
     @ViewBuilder
         func currentAppView(view: AppPages) -> some View {
             switch view {
-            case .loginPage: EmptyView()
+            case .onboardingPage: OnboardingView()
             case .signupPage : EmptyView()
             case .forgotPasswordPage: EmptyView()
             case .verificationPage: EmptyView()
@@ -95,6 +96,7 @@ class Coordinator: ObservableObject {
         func currentAppFullCoverView(fullcover: AppFullCovers) -> some View {
             switch fullcover {
             case .testFullCover: EmptyView()
+            case .loginPage: LoginView()
             }
         }
 }

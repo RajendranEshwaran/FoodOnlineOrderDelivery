@@ -12,7 +12,7 @@ struct CoordinatorView: View {
     @StateObject private var coordinator = Coordinator()
     var body: some View {
         NavigationStack(path: $coordinator.navigationPath) {
-            coordinator.currentAppView(view: AppPages.loginPage)
+            coordinator.currentAppView(view: AppPages.onboardingPage)
                 .navigationDestination(for: AppPages.self) { page in
                     coordinator.currentAppView(view: page)
                 }
