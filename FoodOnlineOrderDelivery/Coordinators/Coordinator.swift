@@ -11,6 +11,7 @@ import Combine
 
 enum AppPages: String, Hashable {
     case onboardingPage
+    case login1
     case signupPage
     case forgotPasswordPage
     case verificationPage
@@ -76,10 +77,11 @@ class Coordinator: ObservableObject {
     @ViewBuilder
         func currentAppView(view: AppPages) -> some View {
             switch view {
+            case .login1: LoginView()
             case .onboardingPage: OnboardingView()
             case .signupPage : EmptyView()
-            case .forgotPasswordPage: EmptyView()
-            case .verificationPage: EmptyView()
+            case .forgotPasswordPage: ForgotPasswordView()
+            case .verificationPage: VerificationView()
             case .locationAccessPage: EmptyView()
             case .defaultView: EmptyView()
             }

@@ -26,7 +26,7 @@ struct OnboardingView: View {
     ]
 
     var body: some View {
-      //  NavigationStack {
+        //NavigationStack {
             VStack {
                 TabView(selection: $currentPage) {
                 ForEach(0..<pages.count, id: \.self) { index in
@@ -53,7 +53,9 @@ struct OnboardingView: View {
                                 }
                             } else {
                                 showLoginView = true
-                                coordinator.coordinatorFullCoverPresent(fullcover: .testFullCover)
+                               // coordinator.coordinatorFullCoverPresent(fullcover: .loginPage)
+                               // coordinator.coordinatorPagePresent(page: .login1)
+                                coordinator.coordinatorPagePush(page: .login1)
                             }
                         }) {
                             Text(pages[index].buttonText)
@@ -84,7 +86,7 @@ struct OnboardingView: View {
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             }
 
-  //      }
+       // }
     }
 }
 
