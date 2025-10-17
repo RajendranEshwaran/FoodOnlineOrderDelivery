@@ -18,6 +18,7 @@ struct VerificationView: View {
     @State private var timeRemaining = 60
     @State private var isTimerRunning = false
     @State private var showResendButton = false
+    @EnvironmentObject private var coordinator: Coordinator
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -80,7 +81,10 @@ struct VerificationView: View {
 
                             // Verify Button
                             Button(action: {
-                                // Handle verify action
+                               // coordinator.coordinatorPagePush(page: .homePage)
+                                coordinator.coordinatorRootToPop()
+                                
+                                coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
                             }) {
                                 Text("Verify")
                                     .font(.title2)

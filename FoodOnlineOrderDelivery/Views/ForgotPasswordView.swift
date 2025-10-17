@@ -12,7 +12,7 @@ struct ForgotPasswordView: View {
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var rememberMe: Bool = false
-
+    @EnvironmentObject private var coordinator: Coordinator
     var body: some View {
        // NavigationStack {
             ZStack {
@@ -50,6 +50,7 @@ struct ForgotPasswordView: View {
                             // Login Button
                             Button(action: {
                                 // Handle login action
+                                coordinator.coordinatorPagePush(page: .verificationPage)
                             }) {
                                 Text("Send Code")
                                     .font(.title2)

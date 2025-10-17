@@ -16,6 +16,7 @@ enum AppPages: String, Hashable {
     case forgotPasswordPage
     case verificationPage
     case locationAccessPage
+    case homePage
     case defaultView
 }
 
@@ -27,6 +28,7 @@ enum AppSheets: String, Identifiable {
 enum AppFullCovers: String, Identifiable {
     case testFullCover
     case loginPage
+    case homePage
     var id: String { return self.rawValue }
 }
 
@@ -83,6 +85,7 @@ class Coordinator: ObservableObject {
             case .forgotPasswordPage: ForgotPasswordView()
             case .verificationPage: VerificationView()
             case .locationAccessPage: EmptyView()
+            case .homePage: HomeView()
             case .defaultView: EmptyView()
             }
         }
@@ -99,6 +102,7 @@ class Coordinator: ObservableObject {
             switch fullcover {
             case .testFullCover: EmptyView()
             case .loginPage: LoginView()
+            case .homePage: HomeView()
             }
         }
 }
