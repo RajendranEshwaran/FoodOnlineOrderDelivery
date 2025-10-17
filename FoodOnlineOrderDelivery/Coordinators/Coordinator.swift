@@ -38,6 +38,7 @@ class Coordinator: ObservableObject {
     @Published var currentSheets: AppSheets?
     @Published var currentFullCover: AppFullCovers?
     @Published var navigationPath = NavigationPath()
+    @Published var rootPage: AppPages = .login1
     
     func coordinatorPagePush(page: AppPages) {
         navigationPath.append(page)
@@ -74,6 +75,11 @@ class Coordinator: ObservableObject {
     func coordinatorRootToPop() {
         navigationPath.removeLast(navigationPath.count)
     }
+
+    func setRootPage(page: AppPages) {
+        rootPage = page
+        navigationPath.removeLast(navigationPath.count)
+    }
     
     
     @ViewBuilder
@@ -81,7 +87,7 @@ class Coordinator: ObservableObject {
             switch view {
             case .login1: LoginView()
             case .onboardingPage: OnboardingView()
-            case .signupPage : EmptyView()
+            case .signupPage : SignupView()
             case .forgotPasswordPage: ForgotPasswordView()
             case .verificationPage: VerificationView()
             case .locationAccessPage: EmptyView()

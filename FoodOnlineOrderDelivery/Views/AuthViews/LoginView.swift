@@ -12,7 +12,14 @@ struct LoginView: View {
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var rememberMe: Bool = false
+    @State private var emailError: String?
+    @State private var passwordError: String?
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
+
     @EnvironmentObject private var coordinator: Coordinator
+    @EnvironmentObject private var authManager: AuthManager
+
     var body: some View {
       //  NavigationStack {
             ZStack {
@@ -37,7 +44,7 @@ struct LoginView: View {
 
                         VStack(spacing: 20) {
                             // Email Field
-                            VStack(alignment: .leading, spacing: 20) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text("Email")
                                     .font(.headline)
                                     .foregroundColor(.black)
@@ -46,6 +53,15 @@ struct LoginView: View {
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .textInputAutocapitalization(.never)
                                     .keyboardType(.emailAddress)
+                                    .onChange(of: email) { _, _ in
+                                        emailError = nil
+                                    }
+
+                                if let emailError = emailError {
+                                    Text(emailError)
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
                             }
 
                             // Password Field
@@ -75,6 +91,15 @@ struct LoginView: View {
                                     RoundedRectangle(cornerRadius: 8)
                                         .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                                 )
+                                .onChange(of: password) { _, _ in
+                                    passwordError = nil
+                                }
+
+                                if let passwordError = passwordError {
+                                    Text(passwordError)
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
                             }
                             
                             // Remember Me and Forgot Password
@@ -104,19 +129,35 @@ struct LoginView: View {
                                 }
                             }
 
+                            // Error message from AuthManager
+                            if let errorMessage = authManager.errorMessage {
+                                Text(errorMessage)
+                                    .font(.caption)
+                                    .foregroundColor(.red)
+                                    .multilineTextAlignment(.center)
+                            }
+
                             // Login Button
                             Button(action: {
-                                // Handle login action
+                                handleLogin()
                             }) {
-                                Text("Login")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 80)
-                                    .background(Color("ButtonColor"))
-                                    .cornerRadius(10)
+                                if authManager.isLoading {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 80)
+                                } else {
+                                    Text("Login")
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 80)
+                                }
                             }
+                            .background(Color("ButtonColor"))
+                            .cornerRadius(10)
+                            .disabled(authManager.isLoading)
                             .padding(.top, 10)
 
                             // Don't have account and Sign Up
@@ -126,7 +167,7 @@ struct LoginView: View {
                                     .foregroundColor(.gray)
 
                                 Button(action: {
-                                    // Handle sign up action
+                                    coordinator.coordinatorPagePush(page: .signupPage)
                                 }) {
                                     Text("Sign Up")
                                         .font(.subheadline)
@@ -189,7 +230,80 @@ struct LoginView: View {
                 }
             }
             .ignoresSafeArea(edges: .all)
+            .alert("Login Status", isPresented: $showAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(alertMessage)
+            }
       //  }
+    }
+
+    // MARK: - Validation Methods
+
+    private func validateEmail() -> Bool {
+        emailError = nil
+
+        // Check if email is empty
+        if email.trimmingCharacters(in: .whitespaces).isEmpty {
+            emailError = "Email is required"
+            return false
+        }
+
+        // Email format validation
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+
+        if !emailPredicate.evaluate(with: email) {
+            emailError = "Please enter a valid email address"
+            return false
+        }
+
+        return true
+    }
+
+    private func validatePassword() -> Bool {
+        passwordError = nil
+
+        // Check if password is empty
+        if password.isEmpty {
+            passwordError = "Password is required"
+            return false
+        }
+
+        // Password length validation
+        if password.count < 6 {
+            passwordError = "Password must be at least 6 characters"
+            return false
+        }
+
+        return true
+    }
+
+    private func handleLogin() {
+        // Validate inputs
+        let isEmailValid = validateEmail()
+        let isPasswordValid = validatePassword()
+
+        guard isEmailValid && isPasswordValid else {
+            return
+        }
+
+        // Perform login
+        Task {
+            let success = await authManager.login(email: email, password: password)
+
+            if success {
+                await MainActor.run {
+                    // Change root page to home and clear navigation stack
+                    coordinator.setRootPage(page: .homePage)
+                }
+            } else {
+                await MainActor.run {
+                    alertMessage = authManager.errorMessage ?? "Login failed. Please try again."
+                    showAlert = true
+                }
+            }
+        }
     }
 }
 

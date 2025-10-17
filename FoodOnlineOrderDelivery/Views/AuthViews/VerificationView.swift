@@ -18,8 +18,12 @@ struct VerificationView: View {
     @State private var timeRemaining = 60
     @State private var isTimerRunning = false
     @State private var showResendButton = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+
     @EnvironmentObject private var coordinator: Coordinator
-    
+    @EnvironmentObject private var authManager: AuthManager
+
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
@@ -61,6 +65,14 @@ struct VerificationView: View {
                             }
                             .padding(.vertical, 20)
 
+                            // Error message
+                            if let errorMessage = authManager.errorMessage {
+                                Text(errorMessage)
+                                    .font(.caption)
+                                    .foregroundColor(.red)
+                                    .multilineTextAlignment(.center)
+                            }
+
                             // Resend Option
                             HStack {
                                 Spacer()
@@ -69,32 +81,38 @@ struct VerificationView: View {
                                                         .font(.headline)
                                 } else {
                                     Button(action: {
-                                        // Handle resend action
+                                        handleResendCode()
                                     }) {
                                         Text("Resend")
                                             .font(.subheadline)
                                             .fontWeight(.semibold)
                                             .foregroundColor(Color("ButtonColor"))
                                     }
+                                    .disabled(authManager.isLoading)
                                 }
                             }
 
                             // Verify Button
                             Button(action: {
-                               // coordinator.coordinatorPagePush(page: .homePage)
-                                coordinator.coordinatorRootToPop()
-                                
-                                coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
+                                handleVerification()
                             }) {
-                                Text("Verify")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 80)
-                                    .background(Color("ButtonColor"))
-                                    .cornerRadius(10)
+                                if authManager.isLoading {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 80)
+                                } else {
+                                    Text("Verify")
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 80)
+                                }
                             }
+                            .background(Color("ButtonColor"))
+                            .cornerRadius(10)
+                            .disabled(authManager.isLoading)
                             .padding(.top, 10)
 
                         }
@@ -124,6 +142,37 @@ struct VerificationView: View {
             isTimerRunning = true
             showResendButton = false // Hide resend button while timer is running
         }
+
+    private func handleVerification() {
+        Task {
+            do {
+                let success = try await authManager.verifyCode(code1, code2, code3, code4)
+                if success {
+                    // Navigate to home on successful verification
+                    await MainActor.run {
+                        coordinator.coordinatorRootToPop()
+                        coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
+                    }
+                }
+            } catch {
+                // Error is already handled in AuthManager
+                print("Verification failed: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func handleResendCode() {
+        Task {
+            let success = await authManager.resendVerificationCode()
+            if success {
+                await MainActor.run {
+                    startTimer()
+                    alertMessage = "Verification code sent successfully"
+                    showAlert = true
+                }
+            }
+        }
+    }
 }
 
 // Custom TextField for Code Entry
