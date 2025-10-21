@@ -99,14 +99,13 @@ struct SearchView: View {
                                     HStack(spacing: 12) {
                                         ForEach(recentSearches, id: \.self) { search in
                                             Button(action: {
-                                                searchText = search
-                                                performSearch(query: search)
+                                                coordinator.coordinatorPagePush(page: .foodCategoryPage(categoryName: search))
                                             }) {
                                                 HStack(spacing: 8) {
                                                     Image(systemName: "clock.arrow.circlepath")
                                                         .font(.caption)
                                                         .foregroundColor(.gray)
-                                                    
+
                                                     Text(search)
                                                         .font(.subheadline)
                                                         .foregroundColor(.black)

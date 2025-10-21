@@ -27,7 +27,7 @@ struct TopPanel: View {
                         .font(.title2)
                         .foregroundColor(.black)
                         .frame(width: 44, height: 44)
-                }.background(Color.gray)
+                }.background(Color.orange)
                     .clipShape(.circle).opacity(0.3)
             }
             
@@ -52,14 +52,14 @@ struct TopPanel: View {
                         .foregroundColor(.gray)
                     
                     HStack(spacing: 4) {
-                        Image(systemName: "location.fill")
-                            .font(.caption)
-                            .foregroundColor(Color("ButtonColor"))
-                        
                         Text(userName)
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(.black)
+                        
+                        Image(systemName: "location.fill")
+                            .font(.caption)
+                            .foregroundColor(Color("ButtonColor"))
                     }
                 }
             } else {
@@ -79,7 +79,7 @@ struct TopPanel: View {
                         .font(.title2)
                         .foregroundColor(.white)
                         .frame(width: 44, height: 44)
-                        .background(Color.black)
+                        .background(Color.orange)
                         .clipShape(.circle)
                     // Badge
                     if cartItemCount > 0 {

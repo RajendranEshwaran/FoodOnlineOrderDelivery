@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-enum AppPages: String, Hashable {
+enum AppPages: Hashable {
     case onboardingPage
     case login1
     case signupPage
@@ -18,6 +18,7 @@ enum AppPages: String, Hashable {
     case locationAccessPage
     case homePage
     case searchPage
+    case foodCategoryPage(categoryName: String)
     case defaultView
 }
 
@@ -94,6 +95,7 @@ class Coordinator: ObservableObject {
             case .locationAccessPage: EmptyView()
             case .homePage: HomeView()
             case .searchPage: SearchView()
+            case .foodCategoryPage(let categoryName): FoodCategoryView(categoryName: categoryName)
             case .defaultView: EmptyView()
             }
         }
