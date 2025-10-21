@@ -72,12 +72,12 @@ class CategoryDataManager {
     var categories: [FoodCategory] = [
         FoodCategory(
             name: "All",
-            image: "star.fill",
+            image: "􀙭",
             foodItems: []
         ),
         FoodCategory(
             name: "Hot Dog",
-            image: "🌭",
+            image: "hotdog3",
             foodItems: [
                 FoodItem(
                     name: "Classic Hot Dog",
@@ -116,7 +116,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Burger",
-            image: "🍔",
+            image: "burger1",
             foodItems: [
                 FoodItem(
                     name: "Classic Cheeseburger",
@@ -166,7 +166,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Sandwich",
-            image: "🥪",
+            image: "sandwich1",
             foodItems: [
                 FoodItem(
                     name: "Club Sandwich",
@@ -205,7 +205,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Hot Drink",
-            image: "☕",
+            image: "hotdrink1",
             foodItems: [
                 FoodItem(
                     name: "Cappuccino",
@@ -244,7 +244,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Pizza",
-            image: "🍕",
+            image: "pizza1",
             foodItems: [
                 FoodItem(
                     name: "Margherita Pizza",
@@ -305,7 +305,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Cold Drink",
-            image: "🥤",
+            image: "colddrink5",
             foodItems: [
                 FoodItem(
                     name: "Iced Coffee",
@@ -377,7 +377,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Dessert",
-            image: "🍰",
+            image: "dessat1",
             foodItems: [
                 FoodItem(
                     name: "Chocolate Cake",
@@ -438,7 +438,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Meal",
-            image: "🍽️",
+            image: "meal5",
             foodItems: [
                 FoodItem(
                     name: "Grilled Chicken with Rice",

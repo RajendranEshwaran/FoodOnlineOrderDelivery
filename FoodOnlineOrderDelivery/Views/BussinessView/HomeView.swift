@@ -36,6 +36,7 @@ struct HomeView: View {
             TopPanel(
                 userName: authManager.currentUser?.name ?? "User",
                 cartItemCount: cartItemCount,
+                isMenuEnable: true,
                 onMenuTap: {
                     showMenu.toggle()
                     print("Menu tapped")
@@ -122,7 +123,7 @@ struct HomeView: View {
                                         action: {
                                             selectedCategory = category.name
                                             print("\(category.name) selected")
-                                        }
+                                        }, icon: category.image
                                     )
                                 }
                             }

@@ -10,47 +10,69 @@ import SwiftUI
 struct TopPanel: View {
     var userName: String = "User"
     var cartItemCount: Int = 0
-    var onMenuTap: () -> Void
-    var onCartTap: () -> Void
-
+    var isMenuEnable: Bool = true
+    var isBackEnable: Bool = false
+    var isUserInfo: Bool = true
+    var onMenuTap: (() -> Void)?
+    var onCartTap: (() -> Void)?
+    var onBackTap: (() -> Void)?
     var body: some View {
         HStack(spacing: 16) {
             // Hamburger Menu Button (Left)
-            Button(action: {
-                onMenuTap()
-            }) {
-                Image(systemName: "line.3.horizontal")
-                    .font(.title2)
-                    .foregroundColor(.black)
-                    .frame(width: 44, height: 44)
-            }.background(Color.gray)
-                .clipShape(.circle).opacity(0.3)
-
+            if isMenuEnable {
+                Button(action: {
+                    onMenuTap?()
+                }) {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.title2)
+                        .foregroundColor(.black)
+                        .frame(width: 44, height: 44)
+                }.background(Color.gray)
+                    .clipShape(.circle).opacity(0.3)
+            }
+            
+            if isBackEnable {
+                // Back Button (Left)
+               Button(action: {
+                   onBackTap?()
+               }) {
+                   Image(systemName: "chevron.left")
+                       .font(.title3)
+                       .foregroundColor(.black)
+                       .frame(width: 40, height: 40)
+               }
+            }
             //Spacer()
 
             // Deliver To Label (Center)
-            VStack(spacing: 4) {
-                Text("Deliver to")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-
-                HStack(spacing: 4) {
-                    Image(systemName: "location.fill")
+            if isUserInfo {
+                VStack(spacing: 4) {
+                    Text("Deliver to")
                         .font(.caption)
-                        .foregroundColor(Color("ButtonColor"))
-
-                    Text(userName)
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
+                        .foregroundColor(.gray)
+                    
+                    HStack(spacing: 4) {
+                        Image(systemName: "location.fill")
+                            .font(.caption)
+                            .foregroundColor(Color("ButtonColor"))
+                        
+                        Text(userName)
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                    }
                 }
+            } else {
+                Text(userName)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.black)
             }
-
             Spacer()
 
             // Cart Button with Badge (Right)
             Button(action: {
-                onCartTap()
+                onCartTap?()
             }) {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: "cart.fill")
@@ -90,8 +112,9 @@ struct TopPanel: View {
             print("Menu tapped")
         }, onCartTap: {
             print("Cart tapped")
+        }, onBackTap: {
+            print("Back tapped")
         })
-
         Spacer()
     }
 }
