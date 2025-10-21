@@ -17,6 +17,7 @@ enum AppPages: String, Hashable {
     case verificationPage
     case locationAccessPage
     case homePage
+    case searchPage
     case defaultView
 }
 
@@ -92,6 +93,7 @@ class Coordinator: ObservableObject {
             case .verificationPage: VerificationView()
             case .locationAccessPage: EmptyView()
             case .homePage: HomeView()
+            case .searchPage: SearchView()
             case .defaultView: EmptyView()
             }
         }

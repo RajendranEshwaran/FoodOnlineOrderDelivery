@@ -13,7 +13,6 @@ struct HomeView: View {
     @EnvironmentObject private var authManager: AuthManager
     @State private var cartItemCount: Int = 3
     @State private var showMenu: Bool = false
-    @State private var searchText: String = ""
     @State private var selectedCategory: String = "All"
 
     let dataManager = CategoryDataManager.shared
@@ -64,30 +63,26 @@ struct HomeView: View {
                     .padding(.top, 20)
 
                     // Search Bar
-                    HStack(spacing: 12) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                            .font(.body)
+                    Button(action: {
+                        coordinator.coordinatorPagePush(page: .searchPage)
+                    }) {
+                        HStack(spacing: 12) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                                .font(.body)
 
-                        TextField("Search dishes, restaurants", text: $searchText)
-                            .font(.body)
-                            .foregroundColor(.black)
-                            .autocapitalization(.none)
+                            Text("Search dishes, restaurants")
+                                .font(.body)
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .leading)
 
-                        if !searchText.isEmpty {
-                            Button(action: {
-                                searchText = ""
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .font(.body)
-                            }
+                            Spacer()
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color(UIColor.systemGray6))
+                        .cornerRadius(12)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(Color(UIColor.systemGray6))
-                    .cornerRadius(12)
                     .padding(.horizontal, 20)
 
                     // All Categories Section
