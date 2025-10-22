@@ -95,7 +95,7 @@ class Coordinator: ObservableObject {
             case .locationAccessPage: EmptyView()
             case .homePage: HomeView()
             case .searchPage: SearchView()
-            case .foodCategoryPage(let categoryName): FoodCategoryView(categoryName: categoryName)
+            case .foodCategoryPage(let categoryName): FoodCategoryView(selectedKeyword: categoryName)
             case .defaultView: EmptyView()
             }
         }
