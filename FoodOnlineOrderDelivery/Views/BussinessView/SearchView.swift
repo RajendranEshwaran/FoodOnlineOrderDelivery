@@ -131,11 +131,13 @@ struct SearchView: View {
                                 .foregroundColor(.black)
                                 .padding(.horizontal, 20)
                                 .padding(.top, recentSearches.isEmpty ? 20 : 0)
-                            
+
                             VStack(spacing: 12) {
                                 ForEach(suggestedRestaurants.prefix(3)) { restaurant in
-                                    RestaurantCard(restaurant: restaurant)
-                                        .padding(.horizontal, 20)
+                                    RestaurantCard(restaurant: restaurant, onTap: {
+                                        handleRestaurantTap(restaurant: restaurant)
+                                    })
+                                    .padding(.horizontal, 20)
                                 }
                             }
                         }
@@ -247,94 +249,15 @@ struct SearchView: View {
     private func loadPopularFastFoods() {
         popularFastFoods = fastFoodManager.getRandomPopularFastFoods(count: 6)
     }
-}
 
-// MARK: - Restaurant Card Component
-struct RestaurantCard: View {
-    let restaurant: Restaurant
-
-    var body: some View {
-        HStack(spacing: 12) {
-            // Restaurant Image
-            Image(restaurant.image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 70, height: 70)
-                .cornerRadius(12)
-                .clipped()
-
-            // Restaurant Info
-            VStack(alignment: .leading, spacing: 6) {
-                Text(restaurant.name)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-
-                HStack(spacing: 4) {
-                    Image(systemName: "star.fill")
-                        .font(.caption)
-                        .foregroundColor(.yellow)
-
-                    Text(String(format: "%.1f", restaurant.rating))
-                        .font(.caption)
-                        .foregroundColor(.gray)
-
-                    Text("• Restaurant")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-            }
-
-            Spacer()
-
-            // Arrow Icon
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundColor(.gray)
-        }
-        .padding(12)
-        .background(Color.white)
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+    // MARK: - Actions
+    private func handleRestaurantTap(restaurant: Restaurant) {
+        print("Restaurant tapped: \(restaurant.name)")
+        coordinator.coordinatorPagePush(page: .restaurantPage(restaurant: restaurant, selectedKeyword: "Pizza"))
     }
 }
 
-// MARK: - Popular Fast Food Card Component
-struct PopularFastFoodCard: View {
-    let fastFood: PopularFastFood
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Food Image
-            Image(fastFood.foodImage)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 140, height: 120)
-                .cornerRadius(12)
-                .clipped()
-
-            // Food Info
-            VStack(alignment: .leading, spacing: 4) {
-                Text(fastFood.foodName)
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                    .lineLimit(1)
-
-                Text(fastFood.restaurantName)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .lineLimit(1)
-            }
-            .padding(.horizontal, 4)
-        }
-        .frame(width: 140)
-        .padding(8)
-        .background(Color.white)
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-    }
-}
 
 #Preview {
     SearchView()

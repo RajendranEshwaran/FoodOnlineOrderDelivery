@@ -20,6 +20,7 @@ enum AppPages: Hashable {
     case searchPage
     case foodCategoryPage(categoryName: String)
     case foodDetailPage(selectedFoodName: String)
+    case restaurantPage(restaurant: Restaurant, selectedKeyword: String)
     case defaultView
 }
 
@@ -103,6 +104,7 @@ class Coordinator: ObservableObject {
                 } else {
                     EmptyView()
                 }
+            case .restaurantPage(let restaurant, let selectedKeyword): RestaurantView(restaurant: restaurant, selectedKeyword: selectedKeyword)
             case .defaultView: EmptyView()
             }
         }

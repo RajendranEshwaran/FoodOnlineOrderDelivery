@@ -15,7 +15,7 @@ enum DeliveryOption: String, Codable {
 }
 
 // MARK: - Restaurant Model
-struct Restaurant: Identifiable, Codable {
+struct Restaurant: Identifiable, Codable, Hashable {
     let id: String
     let name: String
     let image: String // Image name or URL
