@@ -49,9 +49,20 @@ struct RestaurantListCard: View {
                         HStack(spacing: 4) {
                             Image(systemName: "clock")
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.orange)
 
                             Text(restaurant.deliveryTime)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        // Delivery Time
+                        HStack(spacing: 4) {
+                            Image(systemName: "car.side.rear.crop.trunk.partition")
+                                .font(.caption)
+                                .foregroundColor(.orange)
+
+                            Text(restaurant.deliveryOption.rawValue)
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }

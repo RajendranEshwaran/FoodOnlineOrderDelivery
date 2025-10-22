@@ -20,70 +20,80 @@ class SuggestedRestaurantsManager {
             image: "pizza1",
             rating: 4.7,
             deliveryTime: "25-30 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Burger Palace",
             image: "burger1",
             rating: 4.6,
             deliveryTime: "20-25 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Hot Dog Haven",
             image: "hotdog1",
             rating: 4.5,
             deliveryTime: "15-20 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Philly's Best",
             image: "sandwich2",
             rating: 4.9,
             deliveryTime: "20-25 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Coffee Corner",
             image: "hotdrink1",
             rating: 4.7,
             deliveryTime: "10-15 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Sweet Treats",
             image: "dessat1",
             rating: 4.8,
             deliveryTime: "15-20 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Steakhouse Prime",
             image: "meal2",
             rating: 4.9,
             deliveryTime: "35-40 min",
-            isOpen: false
+            isOpen: false,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Smoothie Bar",
             image: "colddrink2",
             rating: 4.8,
             deliveryTime: "10-15 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .paid
         ),
         Restaurant(
             name: "Tony's Pizzeria",
             image: "pizza2",
             rating: 4.8,
             deliveryTime: "20-30 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .free
         ),
         Restaurant(
             name: "Dessert Heaven",
             image: "dessat2",
             rating: 4.9,
             deliveryTime: "15-20 min",
-            isOpen: true
+            isOpen: true,
+            deliveryOption: .paid
         )
     ]
 

@@ -60,6 +60,9 @@ struct FoodCategoryView: View {
                                 foodItem: foodItem,
                                 onAddTapped: {
                                     handleAddToCart(foodItem: foodItem)
+                                },
+                                onCardTapped: {
+                                    handleFoodCardTap(foodItem: foodItem)
                                 }
                             )
                         }
@@ -122,6 +125,11 @@ struct FoodCategoryView: View {
         print("Added to cart: \(foodItem.name)")
         // TODO: Implement cart functionality
         cartItemCount += 1
+    }
+
+    private func handleFoodCardTap(foodItem: FoodItem) {
+        print("Food card tapped: \(foodItem.name)")
+        coordinator.coordinatorPagePush(page: .foodDetailPage(selectedFoodName: foodItem.name))
     }
 
     private func handleRestaurantTap(restaurant: Restaurant) {

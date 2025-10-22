@@ -20,6 +20,7 @@ struct FoodItem: Identifiable, Codable {
     let restaurantName: String
     let deliveryTime: String
     let category: String
+    let size: String
 
     init(id: String = UUID().uuidString,
          name: String,
@@ -30,7 +31,8 @@ struct FoodItem: Identifiable, Codable {
          reviewCount: Int = 100,
          restaurantName: String,
          deliveryTime: String = "20-30 min",
-         category: String) {
+         category: String,
+         size: String = "Medium") {
         self.id = id
         self.name = name
         self.description = description
@@ -41,6 +43,7 @@ struct FoodItem: Identifiable, Codable {
         self.restaurantName = restaurantName
         self.deliveryTime = deliveryTime
         self.category = category
+        self.size = size
     }
 }
 

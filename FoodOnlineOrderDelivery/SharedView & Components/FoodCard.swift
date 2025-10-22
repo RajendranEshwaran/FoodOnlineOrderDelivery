@@ -12,6 +12,7 @@ struct FoodCard: View {
     let foodImage: String
     let price: Double
     var onAddTapped: (() -> Void)?
+    var onCardTapped: (() -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -26,6 +27,9 @@ struct FoodCard: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 120)
             }
+            .onTapGesture {
+                onCardTapped?()
+            }
 
             // Food Name
             Text(foodName)
@@ -33,6 +37,9 @@ struct FoodCard: View {
                 .foregroundColor(.black)
                 .lineLimit(2)
                 .frame(height: 40, alignment: .top)
+                .onTapGesture {
+                    onCardTapped?()
+                }
 
             // Price and Add Button
             HStack {
@@ -64,11 +71,12 @@ struct FoodCard: View {
 
 // MARK: - Convenience Initializer for FoodItem
 extension FoodCard {
-    init(foodItem: FoodItem, onAddTapped: (() -> Void)? = nil) {
+    init(foodItem: FoodItem, onAddTapped: (() -> Void)? = nil, onCardTapped: (() -> Void)? = nil) {
         self.foodName = foodItem.name
         self.foodImage = foodItem.image
         self.price = foodItem.price
         self.onAddTapped = onAddTapped
+        self.onCardTapped = onCardTapped
     }
 }
 

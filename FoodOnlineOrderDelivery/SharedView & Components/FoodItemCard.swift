@@ -100,7 +100,8 @@ struct FoodItemCard: View {
         reviewCount: 200,
         restaurantName: "Burger Palace",
         deliveryTime: "20-25 min",
-        category: "Burger"
+        category: "Burger",
+        size: "Medium"
     ))
     .padding()
 }

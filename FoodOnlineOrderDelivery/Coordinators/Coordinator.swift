@@ -19,6 +19,7 @@ enum AppPages: Hashable {
     case homePage
     case searchPage
     case foodCategoryPage(categoryName: String)
+    case foodDetailPage(selectedFoodName: String)
     case defaultView
 }
 
@@ -96,10 +97,16 @@ class Coordinator: ObservableObject {
             case .homePage: HomeView()
             case .searchPage: SearchView()
             case .foodCategoryPage(let categoryName): FoodCategoryView(selectedKeyword: categoryName)
+            case .foodDetailPage(let selectedFoodName):
+                if let foodItem = getFoodItem(byName: selectedFoodName) {
+                    FoodDetailView(foodItem: foodItem, selectedFoodName: selectedFoodName)
+                } else {
+                    EmptyView()
+                }
             case .defaultView: EmptyView()
             }
         }
-        
+
         @ViewBuilder
         func currentAppSheetView(sheet: AppSheets) -> some View {
             switch sheet {
@@ -115,4 +122,11 @@ class Coordinator: ObservableObject {
             case .homePage: HomeView()
             }
         }
+    
+    // Helper function to find food item by name
+    private func getFoodItem(byName name: String) -> FoodItem? {
+        let allItems = CategoryDataManager.shared.getAllFoodItems()
+        return allItems.first(where: { $0.name == name })
+    }
+      
 }
