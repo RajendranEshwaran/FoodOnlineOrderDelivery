@@ -18,11 +18,11 @@ struct OnboardingView: View {
     @State private var showLoginView = false
     @EnvironmentObject private var coordinator: Coordinator
     let pages: [OnboardingPage] = [
-        OnboardingPage(image: "cart.fill", messageText: "Browse delicious food from your favorite restaurants", buttonText: "Next"),
-        OnboardingPage(image: "bag.fill", messageText: "Order your meals with just a few taps", buttonText: "Next"),
-        OnboardingPage(image: "bag.fill", messageText: "Order your meals from choose cheff", buttonText: "Next"),
-        OnboardingPage(image: "checkmark.circle.fill", messageText: "Free delivery offers", buttonText: "Next"),
-        OnboardingPage(image: "checkmark.circle.fill", messageText: "Get fast delivery right to your door", buttonText: "Get Started")
+        OnboardingPage(image: "Onboarding_01", messageText: "Browse delicious food from your favorite restaurants", buttonText: "Next"),
+        OnboardingPage(image: "Onboarding_02", messageText: "Order your meals with just a few taps", buttonText: "Next"),
+        OnboardingPage(image: "Onboarding_03", messageText: "Order your meals from choose cheff", buttonText: "Next"),
+        OnboardingPage(image: "Onboarding_04", messageText: "Free delivery offers", buttonText: "Next"),
+        OnboardingPage(image: "Onboarding_05", messageText: "Get fast delivery right to your door", buttonText: "Get Started")
     ]
 
     var body: some View {
@@ -35,10 +35,10 @@ struct OnboardingView: View {
                             Rectangle()
                                 .fill(.gray).opacity(0.3)
                                 .frame(width: 250, height: 300, alignment: .center)
-                            Image(systemName: pages[index].image)
+                            Image(pages[index].image)
                                 .resizable()
-                                .scaledToFit()
-                                .frame(width: 150, height: 150)
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 250, height: 300)
                                 .foregroundColor(.blue)
                         }
                         Text(pages[index].messageText)
@@ -53,8 +53,6 @@ struct OnboardingView: View {
                                 }
                             } else {
                                 showLoginView = true
-                               // coordinator.coordinatorFullCoverPresent(fullcover: .loginPage)
-                               // coordinator.coordinatorPagePresent(page: .login1)
                                 coordinator.coordinatorPagePush(page: .login1)
                             }
                         }) {

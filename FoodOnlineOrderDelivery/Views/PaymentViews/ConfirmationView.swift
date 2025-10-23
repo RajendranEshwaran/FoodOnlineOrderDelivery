@@ -161,7 +161,12 @@ struct ConfirmationView: View {
     // MARK: - Actions
     private func handleTrackOrder() {
         print("Track order tapped - Order #\(orderNumber)")
-        // TODO: Navigate to order tracking page
+        coordinator.coordinatorPagePush(page: .trackOrderPage(
+            orderNumber: orderNumber,
+            driverName: "John Smith",
+            driverPhone: "+1 234-567-8900",
+            estimatedArrival: estimatedDeliveryTime
+        ))
     }
 
     private func handleBackToHome() {
