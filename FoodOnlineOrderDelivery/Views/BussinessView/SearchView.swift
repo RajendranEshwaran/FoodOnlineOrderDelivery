@@ -36,7 +36,7 @@ struct SearchView: View {
                 isBackEnable: true,
                 isUserInfo: false,
                 onCartTap: {
-                    print("Cart tapped")
+                    coordinator.coordinatorPagePush(page: .cartPage)
                 }, onBackTap: {
                     print("Back tapped")
                     coordinator.coordinatorPopToPage()

@@ -21,6 +21,10 @@ enum AppPages: Hashable {
     case foodCategoryPage(categoryName: String)
     case foodDetailPage(selectedFoodName: String)
     case restaurantPage(restaurant: Restaurant, selectedKeyword: String)
+    case paymentPage(totalAmount: Double)
+    case addCardPage
+    case cartPage
+    case confirmationPage(orderNumber: String, estimatedDeliveryTime: String)
     case defaultView
 }
 
@@ -105,6 +109,10 @@ class Coordinator: ObservableObject {
                     EmptyView()
                 }
             case .restaurantPage(let restaurant, let selectedKeyword): RestaurantView(restaurant: restaurant, selectedKeyword: selectedKeyword)
+            case .paymentPage(let totalAmount): PaymentView(totalAmount: totalAmount)
+            case .addCardPage: AddCardView()
+            case .cartPage: CartDetailView()
+            case .confirmationPage(let orderNumber, let estimatedDeliveryTime): ConfirmationView(orderNumber: orderNumber, estimatedDeliveryTime: estimatedDeliveryTime)
             case .defaultView: EmptyView()
             }
         }

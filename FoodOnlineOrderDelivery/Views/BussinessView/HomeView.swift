@@ -42,7 +42,7 @@ struct HomeView: View {
                     print("Menu tapped")
                 },
                 onCartTap: {
-                    print("Cart tapped")
+                    coordinator.coordinatorPagePush(page: .cartPage)
                 }
             )
 

@@ -105,6 +105,10 @@ struct PaymentView: View {
                                     isSelected: selectedPaymentMethod == method,
                                     onTap: {
                                         selectedPaymentMethod = method
+                                        // Navigate to AddCardView for card payment methods
+                                        if method == .visa || method == .mastercard {
+                                            coordinator.coordinatorPagePush(page: .addCardPage)
+                                        }
                                     }
                                 )
                             }
@@ -237,7 +241,7 @@ struct PaymentView: View {
     // MARK: - Actions
     private func handleAddNewPayment() {
         print("Add new payment method")
-        // TODO: Navigate to add payment method page
+        coordinator.coordinatorPagePush(page: .addCardPage)
     }
 
     private func handleConfirmPayment() {
@@ -245,7 +249,13 @@ struct PaymentView: View {
         if let card = selectedCard {
             print("Using card ending in: \(card.last4Digits)")
         }
-        // TODO: Process payment and navigate to confirmation
+
+        // Generate order number and estimated delivery time
+        let orderNumber = String(format: "%04d", Int.random(in: 1000...9999))
+        let estimatedTime = "25-30 mins"
+
+        // Navigate to confirmation page
+        coordinator.coordinatorPagePush(page: .confirmationPage(orderNumber: orderNumber, estimatedDeliveryTime: estimatedTime))
     }
 
     private func loadStoredCards() {
