@@ -7,40 +7,15 @@
 
 import SwiftUI
 
-// MARK: - Cart Item Model
-struct CartItem: Identifiable, Hashable {
-    let id: String
-    let name: String
-    let image: String
-    let price: Double
-    let size: String
-    var quantity: Int
-    let restaurantName: String
-
-    init(id: String = UUID().uuidString,
-         name: String,
-         image: String,
-         price: Double,
-         size: String = "Medium",
-         quantity: Int = 1,
-         restaurantName: String) {
-        self.id = id
-        self.name = name
-        self.image = image
-        self.price = price
-        self.size = size
-        self.quantity = quantity
-        self.restaurantName = restaurantName
-    }
-}
 
 // MARK: - Cart Item Card View
 struct CartView: View {
     let item: CartItem
     var onQuantityChanged: ((Int) -> Void)?
     var onRemove: (() -> Void)?
-
+   
     var body: some View {
+      
         HStack(spacing: 12) {
             // Item Image
             Image(item.image)
@@ -49,7 +24,7 @@ struct CartView: View {
                 .frame(width: 80, height: 80)
                 .cornerRadius(12)
                 .clipped()
-
+            
             // Item Details
             VStack(alignment: .leading, spacing: 6) {
                 // Item Name
@@ -57,26 +32,26 @@ struct CartView: View {
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.black)
                     .lineLimit(1)
-
+                
                 // Restaurant Name
                 Text(item.restaurantName)
                     .font(.system(size: 13))
                     .foregroundColor(.gray)
                     .lineLimit(1)
-
+                
                 // Size
                 Text("Size: \(item.size)")
                     .font(.system(size: 12))
                     .foregroundColor(.gray)
-
+                
                 // Price
                 Text("$\(String(format: "%.2f", item.price))")
                     .font(.system(size: 15, weight: .bold))
                     .foregroundColor(.orange)
             }
-
+            
             Spacer()
-
+            
             // Quantity Controls
             VStack(spacing: 8) {
                 // Remove Button
@@ -92,9 +67,9 @@ struct CartView: View {
                             .clipShape(Circle())
                     }
                 }
-
+                
                 Spacer()
-
+                
                 // Quantity Adjuster
                 HStack(spacing: 8) {
                     // Decrease Button
@@ -111,13 +86,13 @@ struct CartView: View {
                             .clipShape(Circle())
                     }
                     .disabled(item.quantity <= 1)
-
+                    
                     // Quantity Display
                     Text("\(item.quantity)")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.black)
                         .frame(minWidth: 20)
-
+                    
                     // Increase Button
                     Button(action: {
                         onQuantityChanged?(item.quantity + 1)
@@ -144,6 +119,9 @@ struct CartItemsListView: View {
     let items: [CartItem]
     var onQuantityChanged: ((String, Int) -> Void)?
     var onRemove: ((String) -> Void)?
+    var onEditAddress: (() -> Void)?
+    var onPlaceOrder: (() -> Void)?
+    var deliveryAddress: String = "123 Main Street, Apt 4B, New York, NY 10001"
 
     var totalPrice: Double {
         items.reduce(0) { $0 + ($1.price * Double($1.quantity)) }
@@ -200,10 +178,53 @@ struct CartItemsListView: View {
                         )
                     }
                 }
+                    
+
+                // Delivery Address Section
+                VStack(alignment: .leading, spacing: 12) {
+                    Divider()
+                        .padding(.vertical, 8)
+
+                    HStack {
+                        Text("Delivery Address")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.black)
+
+                        Spacer()
+
+                        Button(action: {
+                            onEditAddress?()
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "pencil")
+                                    .font(.system(size: 14))
+                                Text("Edit")
+                                    .font(.system(size: 14, weight: .medium))
+                            }
+                            .foregroundColor(.orange)
+                        }
+                    }
+
+                    HStack(alignment: .top, spacing: 12) {
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(.orange)
+
+                        Text(deliveryAddress)
+                            .font(.system(size: 15))
+                            .foregroundColor(.gray)
+                            .lineLimit(3)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(12)
+                    .background(Color.orange.opacity(0.05))
+                    .cornerRadius(12)
+                }
 
                 // Total Section
                 VStack(spacing: 12) {
                     Divider()
+                        .padding(.vertical, 8)
 
                     HStack {
                         Text("Subtotal")
@@ -244,6 +265,25 @@ struct CartItemsListView: View {
                     }
                 }
                 .padding(.top, 8)
+
+                // Place Order Button
+                Button(action: {
+                    onPlaceOrder?()
+                }) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 18))
+
+                        Text("Place Order")
+                            .font(.system(size: 18, weight: .semibold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Color.orange)
+                    .cornerRadius(12)
+                }
+                .padding(.top, 16)
             }
         }
     }
@@ -314,7 +354,14 @@ struct CartItemsListView: View {
                 },
                 onRemove: { id in
                     print("Remove item: \(id)")
-                }
+                },
+                onEditAddress: {
+                    print("Edit address tapped")
+                },
+                onPlaceOrder: {
+                    print("Place order tapped")
+                },
+                deliveryAddress: "123 Main Street, Apt 4B, New York, NY 10001"
             )
             .padding(.horizontal)
 

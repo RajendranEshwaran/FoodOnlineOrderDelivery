@@ -1,0 +1,84 @@
+//
+//  CartDetailView.swift
+//  FoodOnlineOrderDelivery
+//
+//  Created by RajayGoms on 10/22/25.
+//
+
+import SwiftUI
+
+struct CartDetailView: View {
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject private var coordinator: Coordinator
+    @State private var cartItemCount: Int = 3
+    var body: some View {
+        ZStack {
+            Color.black
+            VStack {
+                TopPanel(
+                    userName: "Cart",
+                    cartItemCount: cartItemCount,
+                    isMenuEnable: false,
+                    isBackEnable: true,
+                    isUserInfo: false,
+                    isCartEnable: false,
+                    onCartTap: {
+                        print("Cart tapped")
+                    }, onBackTap: {
+                        coordinator.coordinatorPopToPage()
+                    }
+                )
+                ScrollView {
+                    CartItemsListView(
+                        items: [
+                            CartItem(
+                                name: "Classic Cheeseburger",
+                                image: "burger1",
+                                price: 9.99,
+                                size: "Large",
+                                quantity: 2,
+                                restaurantName: "Burger Palace"
+                            ),
+                            CartItem(
+                                name: "Pepperoni Pizza",
+                                image: "pizza2",
+                                price: 12.99,
+                                size: "Medium",
+                                quantity: 1,
+                                restaurantName: "Tony's Pizzeria"
+                            ),
+                            CartItem(
+                                name: "Hot Dog",
+                                image: "hotdog1",
+                                price: 5.99,
+                                size: "Small",
+                                quantity: 3,
+                                restaurantName: "Hot Dog Haven"
+                            )
+                        ],
+                        onQuantityChanged: { id, newQuantity in
+                            print("Quantity changed to \(newQuantity) for item: \(id)")
+                        },
+                        onRemove: { id in
+                            print("Remove item: \(id)")
+                        },
+                        onEditAddress: {
+                            print("Edit address tapped")
+                            // TODO: Navigate to address edit page
+                        },
+                        onPlaceOrder: {
+                            print("Place order tapped")
+                            // TODO: Navigate to order confirmation page
+                        },
+                        deliveryAddress: "123 Main Street, Apt 4B, New York, NY 10001"
+                    )
+                    .padding(.horizontal, 20)
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    CartDetailView()
+}

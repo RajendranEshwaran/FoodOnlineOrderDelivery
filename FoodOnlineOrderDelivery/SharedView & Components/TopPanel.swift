@@ -13,6 +13,7 @@ struct TopPanel: View {
     var isMenuEnable: Bool = true
     var isBackEnable: Bool = false
     var isUserInfo: Bool = true
+    var isCartEnable: Bool = true
     var onMenuTap: (() -> Void)?
     var onCartTap: (() -> Void)?
     var onBackTap: (() -> Void)?
@@ -70,34 +71,35 @@ struct TopPanel: View {
             }
             Spacer()
 
-            // Cart Button with Badge (Right)
-            Button(action: {
-                onCartTap?()
-            }) {
-                ZStack(alignment: .topTrailing) {
-                    Image(systemName: "cart.fill")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .frame(width: 44, height: 44)
-                        .background(Color.orange)
-                        .clipShape(.circle)
-                    // Badge
-                    if cartItemCount > 0 {
-                        ZStack {
-                            Circle()
-                                .fill(Color.red)
-                                .frame(width: 20, height: 20)
-
-                            Text("\(cartItemCount)")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
+            if isCartEnable {
+                // Cart Button with Badge (Right)
+                Button(action: {
+                    onCartTap?()
+                }) {
+                    ZStack(alignment: .topTrailing) {
+                        Image(systemName: "cart.fill")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .frame(width: 44, height: 44)
+                            .background(Color.orange)
+                            .clipShape(.circle)
+                        // Badge
+                        if cartItemCount > 0 {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.red)
+                                    .frame(width: 20, height: 20)
+                                
+                                Text("\(cartItemCount)")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                            }
+                            .offset(x: 8, y: -8)
                         }
-                        .offset(x: 8, y: -8)
                     }
                 }
             }
-            
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
