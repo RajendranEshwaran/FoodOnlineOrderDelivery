@@ -161,7 +161,7 @@ struct HamburgerMenuView: View {
         isPresented = false
         onLogout?()
         // TODO: Implement logout functionality
-        coordinator.setRootPage(page: .login1)
+        coordinator.setRootPage(page: .login)
     }
 
     private func handleMenuTap(item: MenuItemType) {
@@ -174,8 +174,7 @@ struct HamburgerMenuView: View {
         case .orderHistory:
             coordinator.coordinatorPagePush(page: .ordersPage)
         case .favourites:
-            // TODO: Navigate to favourites page
-            break
+            coordinator.coordinatorPagePush(page: .favouritePage)
         case .paymentMethod:
             coordinator.coordinatorPagePush(page: .paymentPage(totalAmount: 0))
         case .notifications:

@@ -53,7 +53,7 @@ struct OnboardingView: View {
                                 }
                             } else {
                                 showLoginView = true
-                                coordinator.coordinatorPagePush(page: .login1)
+                                coordinator.coordinatorPagePush(page: .login)
                             }
                         }) {
                             Text(pages[index].buttonText)

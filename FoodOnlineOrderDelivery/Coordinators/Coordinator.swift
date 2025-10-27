@@ -11,7 +11,7 @@ import Combine
 
 enum AppPages: Hashable {
     case onboardingPage
-    case login1
+    case login
     case signupPage
     case forgotPasswordPage
     case verificationPage
@@ -27,6 +27,7 @@ enum AppPages: Hashable {
     case confirmationPage(orderNumber: String, estimatedDeliveryTime: String)
     case trackOrderPage(orderNumber: String, driverName: String, driverPhone: String, estimatedArrival: String)
     case ordersPage
+    case favouritePage
     case defaultView
 }
 
@@ -37,7 +38,6 @@ enum AppSheets: String, Identifiable {
 
 enum AppFullCovers: String, Identifiable {
     case testFullCover
-    case loginPage
     case homePage
     var id: String { return self.rawValue }
 }
@@ -48,7 +48,7 @@ class Coordinator: ObservableObject {
     @Published var currentSheets: AppSheets?
     @Published var currentFullCover: AppFullCovers?
     @Published var navigationPath = NavigationPath()
-    @Published var rootPage: AppPages = .login1
+    @Published var rootPage: AppPages = .login
     
     func coordinatorPagePush(page: AppPages) {
         navigationPath.append(page)
@@ -95,7 +95,7 @@ class Coordinator: ObservableObject {
     @ViewBuilder
         func currentAppView(view: AppPages) -> some View {
             switch view {
-            case .login1: LoginView()
+            case .login: LoginView()
             case .onboardingPage: OnboardingView()
             case .signupPage : SignupView()
             case .forgotPasswordPage: ForgotPasswordView()
@@ -117,6 +117,7 @@ class Coordinator: ObservableObject {
             case .confirmationPage(let orderNumber, let estimatedDeliveryTime): ConfirmationView(orderNumber: orderNumber, estimatedDeliveryTime: estimatedDeliveryTime)
             case .trackOrderPage(let orderNumber, let driverName, let driverPhone, let estimatedArrival): TrackOrderView(orderNumber: orderNumber, driverName: driverName, driverPhone: driverPhone, estimatedArrival: estimatedArrival)
             case .ordersPage: MyOrderView()
+            case .favouritePage: FavouriteView()
             case .defaultView: EmptyView()
             }
         }
@@ -132,7 +133,6 @@ class Coordinator: ObservableObject {
         func currentAppFullCoverView(fullcover: AppFullCovers) -> some View {
             switch fullcover {
             case .testFullCover: EmptyView()
-            case .loginPage: LoginView()
             case .homePage: HomeView()
             }
         }

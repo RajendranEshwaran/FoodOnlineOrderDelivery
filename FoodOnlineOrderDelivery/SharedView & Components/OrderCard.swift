@@ -17,7 +17,9 @@ struct OrderCard: View {
     let totalAmount: Double
     let items: [String]
     let isOngoing: Bool
-   
+
+    @State private var showCancelAlert = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Order Header
@@ -92,19 +94,19 @@ struct OrderCard: View {
                     }
                     
                     // Cancel Button
-                             Button(action: {
-                                 
-                             }) {
-                                 Text("Cancel")
-                                     .font(.system(size: 14, weight: .medium))
-                                     .foregroundColor(.red)
-                                     .padding(.horizontal, 16)
-                                     .padding(.vertical, 10)
-                                     .overlay(
-                                         RoundedRectangle(cornerRadius: 8)
-                                             .stroke(Color.red, lineWidth: 1.5)
-                                     )
-                             }
+                    Button(action: {
+                        showCancelAlert = true
+                    }) {
+                        Text("Cancel")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.red, lineWidth: 1.5)
+                            )
+                    }
                 } else {
                     Button(action: {
                         print("Reorder: \(orderNumber)")
@@ -126,6 +128,14 @@ struct OrderCard: View {
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 2)
+        .alert("Cancel Order", isPresented: $showCancelAlert) {
+            Button("No", role: .cancel) { }
+            Button("Yes, Cancel", role: .destructive) {
+                handleCancelOrder()
+            }
+        } message: {
+            Text("Are you sure you want to cancel order \(orderNumber)?")
+        }
     }
 
     private var statusColor: Color {
@@ -141,6 +151,11 @@ struct OrderCard: View {
         default:
             return Color.gray
         }
+    }
+
+    private func handleCancelOrder() {
+        print("Order cancelled: \(orderNumber)")
+        // TODO: Implement order cancellation logic with backend
     }
 }
 
