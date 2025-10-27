@@ -28,6 +28,8 @@ enum AppPages: Hashable {
     case trackOrderPage(orderNumber: String, driverName: String, driverPhone: String, estimatedArrival: String)
     case ordersPage
     case favouritePage
+    case personalInfoPage
+    case addressPage
     case defaultView
 }
 
@@ -118,6 +120,8 @@ class Coordinator: ObservableObject {
             case .trackOrderPage(let orderNumber, let driverName, let driverPhone, let estimatedArrival): TrackOrderView(orderNumber: orderNumber, driverName: driverName, driverPhone: driverPhone, estimatedArrival: estimatedArrival)
             case .ordersPage: MyOrderView()
             case .favouritePage: FavouriteView()
+            case .personalInfoPage: PersonalInfoView()
+            case .addressPage: AddressView()
             case .defaultView: EmptyView()
             }
         }

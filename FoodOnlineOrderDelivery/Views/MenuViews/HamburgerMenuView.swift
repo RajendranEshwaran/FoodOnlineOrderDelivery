@@ -181,11 +181,9 @@ struct HamburgerMenuView: View {
             // TODO: Navigate to notifications page
             break
         case .personalInfo:
-            // TODO: Navigate to personal info page
-            break
+            coordinator.coordinatorPagePush(page: .personalInfoPage)
         case .addresses:
-            // TODO: Navigate to addresses page
-            break
+            coordinator.coordinatorPagePush(page: .addressPage)
         case .reviews:
             // TODO: Navigate to reviews page
             break
