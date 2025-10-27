@@ -28,128 +28,128 @@ struct HamburgerMenuView: View {
                 .onTapGesture {
                     isPresented = false
                 }
-
-            // Menu Content
-            HStack(spacing: 0) {
-                VStack(spacing: 0) {
-                    // Profile Section
-                    VStack(spacing: 16) {
-                        // Profile Image
-                        ZStack {
-                            Circle()
-                                .fill(Color.orange.opacity(0.2))
-                                .frame(width: 80, height: 80)
-
-                            if profileImage.isEmpty {
-                                Image(systemName: "person.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(.orange)
-                            } else {
-                                Image(profileImage)
-                                    .resizable()
-                                    .scaledToFill()
+            
+                // Menu Content
+                HStack(spacing: 0) {
+                    VStack(spacing: 0) {
+                        // Profile Section
+                        VStack(spacing: 16) {
+                            // Profile Image
+                            ZStack {
+                                Circle()
+                                    .fill(Color.orange.opacity(0.2))
                                     .frame(width: 80, height: 80)
-                                    .clipShape(Circle())
+                                
+                                if profileImage.isEmpty {
+                                    Image(systemName: "person.fill")
+                                        .font(.system(size: 40))
+                                        .foregroundColor(.orange)
+                                } else {
+                                    Image(profileImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(Circle())
+                                }
+                            }
+                            
+                            // User Name
+                            Text(userName)
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(.black)
+                            
+                            // User Status
+                            HStack(spacing: 6) {
+                                Circle()
+                                    .fill(Color.green)
+                                    .frame(width: 8, height: 8)
+                                
+                                Text(userStatus)
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.gray)
+                            }
+                            
+                            // Logout Button
+                            Button(action: {
+                                handleLogout()
+                            }) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                                        .font(.system(size: 16))
+                                    
+                                    Text("Logout")
+                                        .font(.system(size: 15, weight: .medium))
+                                }
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(Color.red)
+                                .cornerRadius(10)
+                            }
+                            .padding(.horizontal, 20)
+                        }
+                        .padding(.top, 60)
+                        .padding(.bottom, 30)
+                        
+                        // Menu Sections
+                        ScrollView(showsIndicators: false) {
+                            VStack(spacing: 24) {
+                                // Menu Section 1
+                                MenuSection(
+                                    title: "General",
+                                    items: [
+                                        MenuItem(type: .cart),
+                                        MenuItem(type: .orderHistory),
+                                        MenuItem(type: .favourites),
+                                        MenuItem(type: .paymentMethod),
+                                        MenuItem(type: .notifications)
+                                    ],
+                                    onItemTap: { type in
+                                        handleMenuTap(item: type)
+                                    }
+                                )
+                                
+                                Divider()
+                                    .padding(.horizontal, 20)
+                                
+                                // Menu Section 2
+                                MenuSection(
+                                    title: "Account",
+                                    items: [
+                                        MenuItem(type: .personalInfo),
+                                        MenuItem(type: .addresses)
+                                    ],
+                                    onItemTap: { type in
+                                        handleMenuTap(item: type)
+                                    }
+                                )
+                                
+                                Divider()
+                                    .padding(.horizontal, 20)
+                                
+                                // Menu Section 3
+                                MenuSection(
+                                    title: "Support & Settings",
+                                    items: [
+                                        MenuItem(type: .reviews),
+                                        MenuItem(type: .faq),
+                                        MenuItem(type: .settings)
+                                    ],
+                                    onItemTap: { type in
+                                        handleMenuTap(item: type)
+                                    }
+                                )
+                                
+                                Spacer(minLength: 40)
                             }
                         }
-
-                        // User Name
-                        Text(userName)
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(.black)
-
-                        // User Status
-                        HStack(spacing: 6) {
-                            Circle()
-                                .fill(Color.green)
-                                .frame(width: 8, height: 8)
-
-                            Text(userStatus)
-                                .font(.system(size: 14))
-                                .foregroundColor(.gray)
-                        }
-
-                        // Logout Button
-                        Button(action: {
-                            handleLogout()
-                        }) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "rectangle.portrait.and.arrow.right")
-                                    .font(.system(size: 16))
-
-                                Text("Logout")
-                                    .font(.system(size: 15, weight: .medium))
-                            }
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(Color.red)
-                            .cornerRadius(10)
-                        }
-                        .padding(.horizontal, 20)
                     }
-                    .padding(.top, 60)
-                    .padding(.bottom, 30)
-
-                    // Menu Sections
-                    ScrollView(showsIndicators: false) {
-                        VStack(spacing: 24) {
-                            // Menu Section 1
-                            MenuSection(
-                                title: "General",
-                                items: [
-                                    MenuItem(type: .cart),
-                                    MenuItem(type: .orderHistory),
-                                    MenuItem(type: .favourites),
-                                    MenuItem(type: .paymentMethod),
-                                    MenuItem(type: .notifications)
-                                ],
-                                onItemTap: { type in
-                                    handleMenuTap(item: type)
-                                }
-                            )
-
-                            Divider()
-                                .padding(.horizontal, 20)
-
-                            // Menu Section 2
-                            MenuSection(
-                                title: "Account",
-                                items: [
-                                    MenuItem(type: .personalInfo),
-                                    MenuItem(type: .addresses)
-                                ],
-                                onItemTap: { type in
-                                    handleMenuTap(item: type)
-                                }
-                            )
-
-                            Divider()
-                                .padding(.horizontal, 20)
-
-                            // Menu Section 3
-                            MenuSection(
-                                title: "Support & Settings",
-                                items: [
-                                    MenuItem(type: .reviews),
-                                    MenuItem(type: .faq),
-                                    MenuItem(type: .settings)
-                                ],
-                                onItemTap: { type in
-                                    handleMenuTap(item: type)
-                                }
-                            )
-
-                            Spacer(minLength: 40)
-                        }
-                    }
+                    .frame(width: 280)
+                    .background(Color.white)
+                    .shadow(color: Color.black.opacity(0.2), radius: 10, x: 5, y: 0)
+                    
+                    Spacer()
                 }
-                .frame(width: 280)
-                .background(Color.white)
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 5, y: 0)
-
-                Spacer()
-            }
         }
         .transition(.move(edge: .leading))
         .animation(.easeInOut(duration: 0.3), value: UUID())
@@ -172,8 +172,7 @@ struct HamburgerMenuView: View {
         case .cart:
             coordinator.coordinatorPagePush(page: .cartPage)
         case .orderHistory:
-            // TODO: Navigate to order history page
-            break
+            coordinator.coordinatorPagePush(page: .ordersPage)
         case .favourites:
             // TODO: Navigate to favourites page
             break

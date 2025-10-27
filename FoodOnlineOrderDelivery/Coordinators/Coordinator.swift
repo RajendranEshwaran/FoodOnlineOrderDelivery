@@ -26,6 +26,7 @@ enum AppPages: Hashable {
     case cartPage
     case confirmationPage(orderNumber: String, estimatedDeliveryTime: String)
     case trackOrderPage(orderNumber: String, driverName: String, driverPhone: String, estimatedArrival: String)
+    case ordersPage
     case defaultView
 }
 
@@ -115,6 +116,7 @@ class Coordinator: ObservableObject {
             case .cartPage: CartDetailView()
             case .confirmationPage(let orderNumber, let estimatedDeliveryTime): ConfirmationView(orderNumber: orderNumber, estimatedDeliveryTime: estimatedDeliveryTime)
             case .trackOrderPage(let orderNumber, let driverName, let driverPhone, let estimatedArrival): TrackOrderView(orderNumber: orderNumber, driverName: driverName, driverPhone: driverPhone, estimatedArrival: estimatedArrival)
+            case .ordersPage: MyOrderView()
             case .defaultView: EmptyView()
             }
         }
