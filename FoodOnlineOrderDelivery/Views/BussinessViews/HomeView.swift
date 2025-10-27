@@ -39,7 +39,6 @@ struct HomeView: View {
                 isMenuEnable: true,
                 onMenuTap: {
                     showMenu.toggle()
-                    print("Menu tapped")
                 },
                 onCartTap: {
                     coordinator.coordinatorPagePush(page: .cartPage)
@@ -155,6 +154,25 @@ struct HomeView: View {
         }
         .background(Color(UIColor.white))
         .ignoresSafeArea(edges: .bottom)
+        .overlay(
+            Group {
+                if showMenu {
+                    HamburgerMenuView(
+                        isPresented: $showMenu,
+                        profileImage: "",
+                        userName: authManager.currentUser?.name ?? "User",
+                        userStatus: "Active",
+                        onLogout: {
+                            // Handle logout
+                            authManager.logout()
+                        }
+                    )
+                    .transition(.move(edge: .leading))
+                    .zIndex(100)
+                }
+            }
+        )
+        .animation(.easeInOut(duration: 0.3), value: showMenu)
     }
 }
 
