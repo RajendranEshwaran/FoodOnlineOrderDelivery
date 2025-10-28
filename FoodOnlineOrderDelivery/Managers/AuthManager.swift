@@ -46,6 +46,9 @@ class AuthManager: ObservableObject {
     @Published var verificationCode: String = ""
     @Published var isVerified: Bool = false
 
+    // Track if user is new (from signup) or existing (from login)
+    @Published var isNewUser: Bool = false
+
     // Singleton instance
     static let shared = AuthManager()
 
@@ -59,6 +62,7 @@ class AuthManager: ObservableObject {
             isLoading = true
             authState = .verifying
             errorMessage = nil
+            isNewUser = false // Existing user logging in
         }
 
         // Simulate API call

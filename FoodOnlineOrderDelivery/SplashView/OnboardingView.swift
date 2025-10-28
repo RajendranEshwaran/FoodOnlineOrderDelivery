@@ -17,6 +17,7 @@ struct OnboardingView: View {
     @State private var currentPage = 0
     @State private var showLoginView = false
     @EnvironmentObject private var coordinator: Coordinator
+    @EnvironmentObject private var authManager: AuthManager
     let pages: [OnboardingPage] = [
         OnboardingPage(image: "Onboarding_01", messageText: "Browse delicious food from your favorite restaurants", buttonText: "Next"),
         OnboardingPage(image: "Onboarding_02", messageText: "Order your meals with just a few taps", buttonText: "Next"),
@@ -52,8 +53,18 @@ struct OnboardingView: View {
                                     currentPage += 1
                                 }
                             } else {
-                                showLoginView = true
-                                coordinator.coordinatorPagePush(page: .login)
+                                // Check if user is authenticated (coming from signup/verification)
+                                if authManager.isAuthenticated && authManager.isNewUser {
+                                    // New user completed onboarding, go to home
+                                    coordinator.coordinatorRootToPop()
+                                    coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
+                                    // Reset flag after onboarding is complete
+                                    authManager.isNewUser = false
+                                } else {
+                                    // First time app launch or not authenticated, go to login
+                                    showLoginView = true
+                                    coordinator.coordinatorPagePush(page: .login)
+                                }
                             }
                         }) {
                             Text(pages[index].buttonText)

@@ -148,10 +148,17 @@ struct VerificationView: View {
             do {
                 let success = try await authManager.verifyCode(code1, code2, code3, code4)
                 if success {
-                    // Navigate to home on successful verification
                     await MainActor.run {
-                        coordinator.coordinatorRootToPop()
-                        coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
+                        // Check if user is new (from signup) or existing (from login)
+                        if authManager.isNewUser {
+                            // New user: Show onboarding first
+                            coordinator.coordinatorRootToPop()
+                            coordinator.coordinatorPagePush(page: .onboardingPage)
+                        } else {
+                            // Existing user: Go directly to home
+                            coordinator.coordinatorRootToPop()
+                            coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
+                        }
                     }
                 }
             } catch {

@@ -305,6 +305,8 @@ struct SignupView: View {
             // TODO: Implement signup in AuthManager
             // For now, simulate success and navigate to verification
             await MainActor.run {
+                // Mark user as new (coming from signup)
+                authManager.isNewUser = true
                 coordinator.coordinatorPagePush(page: .verificationPage)
             }
         }
