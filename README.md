@@ -1,12 +1,13 @@
-# 🍔 FoodOnlineOrderDelivery
+# 🍔 FOOD(FastOnlineOrderDelivery)
 
 A modern, feature-rich iOS food delivery application built with SwiftUI, offering seamless user experience for browsing, ordering, and tracking food delivery from your favorite restaurants.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-iOS%2015.0+-blue.svg" alt="Platform">
   <img src="https://img.shields.io/badge/Language-Swift%205.9-orange.svg" alt="Language">
-  <img src="https://img.shields.io/badge/Framework-SwiftUI-green.svg" alt="Framework">
+  <img src="https://img.shields.io/badge/Framework-SwiftUI|Combine-green.svg" alt="Framework">
   <img src="https://img.shields.io/badge/Architecture-MVVM-red.svg" alt="Architecture">
+  <img src="https://img.shields.io/badge/NavigationPattern-Coordinator-purple.svg" alt="NavigationPattern">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
 
@@ -296,8 +297,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Rajendran Eshwaran**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@RajendranEshwaran](https://github.com/yourusername)
+- Email: Rajendraneshwaran2010@gmail.com
 
 ## 🙏 Acknowledgments
 
@@ -307,17 +308,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📸 Screenshots
 
+> ![Simulator Screen Recording - iPhone 16e - 2025-10-28 at 15 35 53](https://github.com/user-attachments/assets/3de1278e-0f96-4993-acd7-1a058adc17c6)
 > Add screenshots of your app here
+<p>
+<img width="250" height="541" alt="Splash Page_02" src="https://github.com/user-attachments/assets/e95a3d3f-49ce-43aa-b56d-52b7dfe48304" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 01 51" src="https://github.com/user-attachments/assets/23b44fa0-32e7-4694-a014-bb2a85b4dd01" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 01 55" src="https://github.com/user-attachments/assets/db4db8f9-3ec4-44a1-9883-f2563db6a4aa" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 02 05" src="https://github.com/user-attachments/assets/db93af02-82b2-4c49-b567-9ced8e4aac7a" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 31" src="https://github.com/user-attachments/assets/26148506-b42a-4fb9-a231-1c7338b57f6a" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 44" src="https://github.com/user-attachments/assets/8dbdfb60-f8e9-494e-8ddd-a19adad034a8" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 06 45" src="https://github.com/user-attachments/assets/7ecd9104-6769-4f2e-83ac-4647179e493a" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 06 39" src="https://github.com/user-attachments/assets/d16eadf1-a0f4-4e4d-b746-2bd56cc1dc0f" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 04 17" src="https://github.com/user-attachments/assets/6b181560-0a61-4c26-b67b-9cee76a04494" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 04 08" src="https://github.com/user-attachments/assets/3345a1ea-262b-4b25-9fd9-37d8861ad621" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 59" src="https://github.com/user-attachments/assets/0dd8be2a-20b6-4bd1-bbe6-a3daba322541" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 47" src="https://github.com/user-attachments/assets/d86bf6e6-680f-42a8-b919-85e60adc4fc0" />
 
-```
-[Onboarding] [Login] [Home] [Food Categories]
-[Food Detail] [Cart] [Checkout] [Order Tracking]
-[Profile] [Addresses] [Favourites] [Orders]
-```
-
+</p>
 ## 📞 Support
 
-For support, email your.email@example.com or create an issue in the repository.
+For support, email Rajendraneshwaran2010@gmail.com or create an issue in the repository.
 
 ---
 
