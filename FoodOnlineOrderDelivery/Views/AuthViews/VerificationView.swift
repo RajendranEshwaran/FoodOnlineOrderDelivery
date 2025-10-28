@@ -151,9 +151,8 @@ struct VerificationView: View {
                     await MainActor.run {
                         // Check if user is new (from signup) or existing (from login)
                         if authManager.isNewUser {
-                            // New user: Show onboarding first
-                            coordinator.coordinatorRootToPop()
-                            coordinator.coordinatorPagePush(page: .onboardingPage)
+                            // New user: Show onboarding first as a new root page
+                            coordinator.setRootPage(page: .onboardingPage)
                         } else {
                             // Existing user: Go directly to home
                             coordinator.coordinatorRootToPop()

@@ -55,15 +55,14 @@ struct OnboardingView: View {
                             } else {
                                 // Check if user is authenticated (coming from signup/verification)
                                 if authManager.isAuthenticated && authManager.isNewUser {
-                                    // New user completed onboarding, go to home
-                                    coordinator.coordinatorRootToPop()
-                                    coordinator.coordinatorFullCoverPresent(fullcover: .homePage)
+                                    // New user completed onboarding, set home as root page
+                                    coordinator.setRootPage(page: .homePage)
                                     // Reset flag after onboarding is complete
                                     authManager.isNewUser = false
                                 } else {
                                     // First time app launch or not authenticated, go to login
                                     showLoginView = true
-                                    coordinator.coordinatorPagePush(page: .login)
+                                    coordinator.setRootPage(page: .login)
                                 }
                             }
                         }) {
