@@ -15,16 +15,26 @@ struct FoodItemCard: View {
             // Food Image
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(UIColor.orange))
+                    .fill(Color(UIColor.white))
                     .frame(width: 100, height: 100)
 
                 // Placeholder for actual image
-//                Text(foodItem.image)
-//                    .font(.system(size: 50))
-                Image(foodItem.image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 90, height: 90)
+
+                AsyncImage(url: URL(string: foodItem.image)) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 90, height: 90)
+                    } else if phase.error != nil {
+                        Image("noImage") // Shows an error icon
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 90, height: 90)
+                    } else {
+                        ProgressView()
+                    }
+                }
             }
 
             // Food Details

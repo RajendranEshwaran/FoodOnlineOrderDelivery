@@ -112,41 +112,7 @@ class CategoryDataManager {
         FoodCategory(
             name: "Sandwich",
             image: "sandwich1",
-            foodItems: [
-                FoodItem(
-                    name: "Club Sandwich",
-                    description: "Triple-decker with turkey, bacon, lettuce, and tomato",
-                    price: 8.99,
-                    image: "sandwich1",
-                    rating: 4.5,
-                    reviewCount: 110,
-                    restaurantName: "Sandwich Shop",
-                    deliveryTime: "15-20 min",
-                    category: "Sandwich"
-                ),
-                FoodItem(
-                    name: "Philly Cheesesteak",
-                    description: "Thinly sliced steak with melted cheese and peppers",
-                    price: 10.99,
-                    image: "sandwich2",
-                    rating: 4.9,
-                    reviewCount: 250,
-                    restaurantName: "Philly's Best",
-                    deliveryTime: "20-25 min",
-                    category: "Sandwich"
-                ),
-                FoodItem(
-                    name: "BLT Sandwich",
-                    description: "Crispy bacon, lettuce, and tomato on toasted bread",
-                    price: 7.49,
-                    image: "sandwich3",
-                    rating: 4.3,
-                    reviewCount: 90,
-                    restaurantName: "Daily Deli",
-                    deliveryTime: "10-15 min",
-                    category: "Sandwich"
-                )
-            ]
+            foodItems: JsonReadDataManager.shared.loadSandwiches()
         ),
         FoodCategory(
             name: "Hot Drink",
