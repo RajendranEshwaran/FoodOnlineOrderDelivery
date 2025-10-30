@@ -62,57 +62,12 @@ class CategoryDataManager {
         FoodCategory(
             name: "Burger",
             image: "burger1",
-            foodItems: [
-                FoodItem(
-                    name: "Classic Cheeseburger",
-                    description: "Beef patty with cheese, lettuce, tomato, and special sauce",
-                    price: 9.99,
-                    image: "burger1",
-                    rating: 4.6,
-                    reviewCount: 200,
-                    restaurantName: "Burger Palace",
-                    deliveryTime: "20-25 min",
-                    category: "burger1"
-                ),
-                FoodItem(
-                    name: "Bacon BBQ Burger",
-                    description: "Double patty with bacon, BBQ sauce, and onion rings",
-                    price: 12.99,
-                    image: "burger2",
-                    rating: 4.8,
-                    reviewCount: 180,
-                    restaurantName: "Grill Master",
-                    deliveryTime: "25-30 min",
-                    category: "Burger"
-                ),
-                FoodItem(
-                    name: "Mushroom Swiss Burger",
-                    description: "Juicy burger with sautéed mushrooms and Swiss cheese",
-                    price: 11.49,
-                    image: "burger3",
-                    rating: 4.7,
-                    reviewCount: 140,
-                    restaurantName: "Burger Heaven",
-                    deliveryTime: "20-30 min",
-                    category: "Burger"
-                ),
-                FoodItem(
-                    name: "Veggie Burger",
-                    description: "Plant-based patty with fresh vegetables",
-                    price: 10.99,
-                    image: "burger4",
-                    rating: 4.4,
-                    reviewCount: 85,
-                    restaurantName: "Green Eats",
-                    deliveryTime: "15-25 min",
-                    category: "Burger"
-                )
-            ]
+            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "burgers")
         ),
         FoodCategory(
             name: "Sandwich",
             image: "sandwich1",
-            foodItems: JsonReadDataManager.shared.loadSandwiches()
+            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "sandwiches")
         ),
         FoodCategory(
             name: "Hot Drink",

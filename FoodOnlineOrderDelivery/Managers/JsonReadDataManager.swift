@@ -15,8 +15,8 @@ struct FoodItemJSON: Codable {
     let description: String // Sandwich name/description
     let price: Double
     let rating: Double
-    let reviewCount: Int
     let country: String
+    let reviewCount: Int
     let deliveryTime: String
     let category: String
 }
@@ -30,8 +30,8 @@ class JsonReadDataManager {
     private init() {}
 
     // MARK: - Load Sandwiches
-    func loadSandwiches() -> [FoodItem] {
-        guard let url = Bundle.main.url(forResource: "sandwiches", withExtension: "json") else {
+    func loadSandwiches(jsonFileName: String) -> [FoodItem] {
+        guard let url = Bundle.main.url(forResource: jsonFileName, withExtension: "json") else {
             print("Error: sandwiches.json file not found")
             return []
         }
@@ -58,11 +58,11 @@ class JsonReadDataManager {
                 )
             }
 
-            print("Successfully loaded \(foodItems.count) sandwiches")
+            print("Successfully loaded \(foodItems.count) \(jsonFileName)")
             return foodItems
 
         } catch {
-            print("Error loading sandwiches: \(error.localizedDescription)")
+            print("Error loading \(jsonFileName): \(error.localizedDescription)")
             return []
         }
     }
