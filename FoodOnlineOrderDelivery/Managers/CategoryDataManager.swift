@@ -111,63 +111,7 @@ class CategoryDataManager {
         FoodCategory(
             name: "Pizza",
             image: "pizza1",
-            foodItems: [
-                FoodItem(
-                    name: "Margherita Pizza",
-                    description: "Classic pizza with tomato sauce, mozzarella, and fresh basil",
-                    price: 12.99,
-                    image: "pizza1",
-                    rating: 4.7,
-                    reviewCount: 280,
-                    restaurantName: "Pizza Paradise",
-                    deliveryTime: "25-30 min",
-                    category: "Pizza"
-                ),
-                FoodItem(
-                    name: "Pepperoni Pizza",
-                    description: "Traditional pizza loaded with pepperoni and mozzarella cheese",
-                    price: 14.99,
-                    image: "pizza2",
-                    rating: 4.8,
-                    reviewCount: 350,
-                    restaurantName: "Tony's Pizzeria",
-                    deliveryTime: "20-30 min",
-                    category: "Pizza"
-                ),
-                FoodItem(
-                    name: "BBQ Chicken Pizza",
-                    description: "Grilled chicken with BBQ sauce, red onions, and cilantro",
-                    price: 15.99,
-                    image: "pizza3",
-                    rating: 4.6,
-                    reviewCount: 210,
-                    restaurantName: "Pizza House",
-                    deliveryTime: "30-35 min",
-                    category: "Pizza"
-                ),
-                FoodItem(
-                    name: "Vegetarian Supreme",
-                    description: "Loaded with bell peppers, mushrooms, olives, and onions",
-                    price: 13.99,
-                    image: "pizza4",
-                    rating: 4.5,
-                    reviewCount: 175,
-                    restaurantName: "Green Pizza",
-                    deliveryTime: "25-30 min",
-                    category: "Pizza"
-                ),
-                FoodItem(
-                    name: "Hawaiian Pizza",
-                    description: "Ham and pineapple with mozzarella cheese",
-                    price: 14.49,
-                    image: "pizza5",
-                    rating: 4.4,
-                    reviewCount: 190,
-                    restaurantName: "Island Pizza",
-                    deliveryTime: "20-25 min",
-                    category: "Pizza"
-                )
-            ]
+            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "pizzas")
         ),
         FoodCategory(
             name: "Cold Drink",
@@ -244,135 +188,12 @@ class CategoryDataManager {
         FoodCategory(
             name: "Dessert",
             image: "dessat1",
-            foodItems: [
-                FoodItem(
-                    name: "Chocolate Cake",
-                    description: "Rich, moist chocolate cake with chocolate frosting",
-                    price: 6.99,
-                    image: "dessat1",
-                    rating: 4.8,
-                    reviewCount: 240,
-                    restaurantName: "Sweet Treats",
-                    deliveryTime: "15-20 min",
-                    category: "Dessert"
-                ),
-                FoodItem(
-                    name: "Cheesecake",
-                    description: "Creamy New York-style cheesecake with graham cracker crust",
-                    price: 7.49,
-                    image: "dessat2",
-                    rating: 4.9,
-                    reviewCount: 310,
-                    restaurantName: "Dessert Heaven",
-                    deliveryTime: "15-20 min",
-                    category: "Dessert"
-                ),
-                FoodItem(
-                    name: "Tiramisu",
-                    description: "Classic Italian dessert with coffee-soaked ladyfingers",
-                    price: 8.49,
-                    image: "dessat3",
-                    rating: 4.7,
-                    reviewCount: 185,
-                    restaurantName: "Italian Sweets",
-                    deliveryTime: "20-25 min",
-                    category: "Dessert"
-                ),
-                FoodItem(
-                    name: "Ice Cream Sundae",
-                    description: "Vanilla ice cream with chocolate sauce, whipped cream, and cherry",
-                    price: 5.99,
-                    image: "dessat4",
-                    rating: 4.6,
-                    reviewCount: 270,
-                    restaurantName: "Ice Cream Parlor",
-                    deliveryTime: "10-15 min",
-                    category: "Dessert"
-                ),
-                FoodItem(
-                    name: "Brownie",
-                    description: "Warm chocolate brownie with vanilla ice cream",
-                    price: 6.49,
-                    image: "dessat5",
-                    rating: 4.8,
-                    reviewCount: 195,
-                    restaurantName: "Bakery Bliss",
-                    deliveryTime: "15-20 min",
-                    category: "Dessert"
-                )
-            ]
+            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "desserts")
         ),
         FoodCategory(
             name: "Meal",
             image: "meal5",
-            foodItems: [
-                FoodItem(
-                    name: "Grilled Chicken with Rice",
-                    description: "Tender grilled chicken breast with seasoned rice and vegetables",
-                    price: 14.99,
-                    image: "meal1",
-                    rating: 4.7,
-                    reviewCount: 320,
-                    restaurantName: "Healthy Eats",
-                    deliveryTime: "30-35 min",
-                    category: "Meal"
-                ),
-                FoodItem(
-                    name: "Steak Dinner",
-                    description: "8oz sirloin steak with mashed potatoes and asparagus",
-                    price: 22.99,
-                    image: "meal2",
-                    rating: 4.9,
-                    reviewCount: 280,
-                    restaurantName: "Steakhouse Prime",
-                    deliveryTime: "35-40 min",
-                    category: "Meal"
-                ),
-                FoodItem(
-                    name: "Salmon Fillet",
-                    description: "Pan-seared salmon with quinoa and steamed broccoli",
-                    price: 18.99,
-                    image: "meal3",
-                    rating: 4.8,
-                    reviewCount: 245,
-                    restaurantName: "Seafood Delight",
-                    deliveryTime: "30-35 min",
-                    category: "Meal"
-                ),
-                FoodItem(
-                    name: "Pasta Carbonara",
-                    description: "Creamy pasta with bacon, parmesan, and black pepper",
-                    price: 13.99,
-                    image: "meal4",
-                    rating: 4.6,
-                    reviewCount: 290,
-                    restaurantName: "Italian Kitchen",
-                    deliveryTime: "25-30 min",
-                    category: "Meal"
-                ),
-                FoodItem(
-                    name: "Chicken Curry with Naan",
-                    description: "Spicy chicken curry served with warm naan bread",
-                    price: 15.99,
-                    image: "meal5",
-                    rating: 4.7,
-                    reviewCount: 265,
-                    restaurantName: "Spice Palace",
-                    deliveryTime: "30-35 min",
-                    category: "Meal"
-                ),
-                FoodItem(
-                    name: "Caesar Salad with Chicken",
-                    description: "Fresh romaine lettuce with grilled chicken, croutons, and dressing",
-                    price: 11.99,
-                    image: "meal2",
-                    rating: 4.5,
-                    reviewCount: 180,
-                    restaurantName: "Fresh Greens",
-                    deliveryTime: "15-20 min",
-                    category: "Meal"
-                )
-            ]
+            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "meals")
         )
     ]
 
