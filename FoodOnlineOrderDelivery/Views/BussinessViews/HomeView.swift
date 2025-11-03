@@ -16,7 +16,7 @@ struct HomeView: View {
     @State private var selectedCategory: String = "All"
 
     let dataManager = CategoryDataManager.shared
-
+    
     // Computed property for time-based greeting
     private var greetingMessage: String {
         let hour = Calendar.current.component(.hour, from: Date())

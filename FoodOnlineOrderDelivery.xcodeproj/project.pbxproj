@@ -30,6 +30,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B48D94FD2EB26CEC003B47EB /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDeliveryTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				JsonFiles/sandwiches.json,
+			);
+			target = B4C402692E9EA0F200715410 /* FoodOnlineOrderDeliveryTests */;
+		};
+		B48D94FE2EB26CEC003B47EB /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDeliveryUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				JsonFiles/sandwiches.json,
+			);
+			target = B4C402732E9EA0F200715410 /* FoodOnlineOrderDeliveryUITests */;
+		};
 		B4C402A12E9EAECB00715410 /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDelivery" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -54,6 +68,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B4C402A12E9EAECB00715410 /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDelivery" target */,
+				B48D94FD2EB26CEC003B47EB /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDeliveryTests" target */,
+				B48D94FE2EB26CEC003B47EB /* Exceptions for "FoodOnlineOrderDelivery" folder in "FoodOnlineOrderDeliveryUITests" target */,
 			);
 			path = FoodOnlineOrderDelivery;
 			sourceTree = "<group>";
