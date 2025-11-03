@@ -1,0 +1,72 @@
+/* Authentication */
+"login" = "Iniciar Sesión";
+"login_subtitle" = "Por favor, inicie sesión en su cuenta existente";
+"email" = "Correo Electrónico";
+"email_placeholder" = "Ingrese su correo electrónico";
+"password" = "Contraseña";
+"password_placeholder" = "Ingrese su contraseña";
+"remember_me" = "Recuérdame";
+"forgot_password" = "¿Olvidaste tu Contraseña?";
+"dont_have_account" = "¿No tienes una cuenta?";
+"signup" = "Registrarse";
+"or" = "O";
+"ok" = "Aceptar";
+
+/* Validation Messages */
+"email_required" = "El correo electrónico es obligatorio";
+"invalid_email" = "Por favor, ingrese una dirección de correo válida";
+"password_required" = "La contraseña es obligatoria";
+"password_min_length" = "La contraseña debe tener al menos 6 caracteres";
+"login_failed" = "Error al iniciar sesión. Por favor, inténtelo de nuevo.";
+"login_status" = "Estado de Inicio de Sesión";
+
+/* Home Screen */
+"good_morning" = "Buenos Días";
+"good_afternoon" = "Buenas Tardes";
+"good_evening" = "Buenas Noches";
+"hey" = "Hola";
+"user" = "Usuario";
+"search_placeholder" = "Buscar platos, restaurantes";
+"all_categories" = "Todas las Categorías";
+"see_all" = "Ver Todo";
+"popular_dishes" = "Platos Populares";
+"active" = "Activo";
+
+/* Common */
+"cancel" = "Cancelar";
+"save" = "Guardar";
+"delete" = "Eliminar";
+"edit" = "Editar";
+"done" = "Hecho";
+"continue" = "Continuar";
+"back" = "Atrás";
+
+/* Settings */
+"settings" = "Configuración";
+"language" = "Idioma";
+"select_language" = "Seleccionar Idioma";
+"english" = "Inglés";
+"spanish" = "Español";
+
+/* Menu */
+"my_orders" = "Mis Pedidos";
+"favourites" = "Favoritos";
+"profile" = "Perfil";
+"addresses" = "Direcciones";
+"payment_methods" = "Métodos de Pago";
+"logout" = "Cerrar Sesión";
+
+/* Cart */
+"cart" = "Carrito";
+"checkout" = "Finalizar Compra";
+"total" = "Total";
+"subtotal" = "Subtotal";
+"delivery_fee" = "Tarifa de Entrega";
+"add_to_cart" = "Agregar al Carrito";
+
+/* Orders */
+"order_placed" = "Pedido Realizado";
+"preparing" = "Preparando";
+"on_the_way" = "En Camino";
+"delivered" = "Entregado";
+"track_order" = "Rastrear Pedido";

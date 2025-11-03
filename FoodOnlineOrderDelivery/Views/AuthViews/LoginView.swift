@@ -19,6 +19,7 @@ struct LoginView: View {
 
     @EnvironmentObject private var coordinator: Coordinator
     @EnvironmentObject private var authManager: AuthManager
+    @ObservedObject private var localizationManager = LocalizationManager.shared
 
     var body: some View {
       //  NavigationStack {
@@ -29,7 +30,7 @@ struct LoginView: View {
                             .fill(.black)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                         
-                        HeaderViews(titleText: "Login", bodyText: "Please sign in into your existing account", titleTextColor: .white, bodyTextColor: .white)
+                        HeaderViews(titleText: "login".localized(), bodyText: "login_subtitle".localized(), titleTextColor: .white, bodyTextColor: .white)
                             .padding(.top, 80)
                     }
                 }
@@ -45,11 +46,11 @@ struct LoginView: View {
                         VStack(spacing: 20) {
                             // Email Field
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Email")
+                                Text("email".localized())
                                     .font(.headline)
                                     .foregroundColor(.black)
 
-                                TextField("Enter your email", text: $email)
+                                TextField("email_placeholder".localized(), text: $email)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .textInputAutocapitalization(.never)
                                     .keyboardType(.emailAddress)
@@ -66,16 +67,16 @@ struct LoginView: View {
 
                             // Password Field
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Password")
+                                Text("password".localized())
                                     .font(.headline)
                                     .foregroundColor(.black)
 
                                 HStack {
                                     if isPasswordVisible {
-                                        TextField("Enter your password", text: $password)
+                                        TextField("password_placeholder".localized(), text: $password)
                                             .textInputAutocapitalization(.never)
                                     } else {
-                                        SecureField("Enter your password", text: $password)
+                                        SecureField("password_placeholder".localized(), text: $password)
                                             .textInputAutocapitalization(.never)
                                     }
 
@@ -110,7 +111,7 @@ struct LoginView: View {
                                     HStack(spacing: 8) {
                                         Image(systemName: rememberMe ? "checkmark.square.fill" : "square")
                                             .foregroundColor(rememberMe ? .blue : .gray)
-                                        Text("Remember Me")
+                                        Text("remember_me".localized())
                                             .font(.subheadline)
                                             .foregroundColor(.black)
                                     }
@@ -123,7 +124,7 @@ struct LoginView: View {
                                    // coordinator.coordinatorPagePresent(page: .forgotPasswordPage)
                                     coordinator.coordinatorPagePush(page: .forgotPasswordPage)
                                 }) {
-                                    Text("Forgot Password?")
+                                    Text("forgot_password".localized())
                                         .font(.subheadline)
                                         .foregroundColor(Color("ButtonColor"))
                                 }
@@ -147,7 +148,7 @@ struct LoginView: View {
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 80)
                                 } else {
-                                    Text("Login")
+                                    Text("login".localized())
                                         .font(.title2)
                                         .fontWeight(.semibold)
                                         .foregroundColor(.white)
@@ -162,22 +163,22 @@ struct LoginView: View {
 
                             // Don't have account and Sign Up
                             HStack(spacing: 5) {
-                                Text("Don't have an account?")
+                                Text("dont_have_account".localized())
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
 
                                 Button(action: {
                                     coordinator.coordinatorPagePush(page: .signupPage)
                                 }) {
-                                    Text("Sign Up")
+                                    Text("signup".localized())
                                         .font(.subheadline)
                                         .fontWeight(.semibold)
                                         .foregroundColor(Color("ButtonColor"))
                                 }
                             }
                             .padding(.top, 15)
-                            
-                            Text("Or")
+
+                            Text("or".localized())
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.black)
@@ -230,8 +231,8 @@ struct LoginView: View {
                 }
             }
             .ignoresSafeArea(edges: .all)
-            .alert("Login Status", isPresented: $showAlert) {
-                Button("OK", role: .cancel) { }
+            .alert("login_status".localized(), isPresented: $showAlert) {
+                Button("ok".localized(), role: .cancel) { }
             } message: {
                 Text(alertMessage)
             }
@@ -245,7 +246,7 @@ struct LoginView: View {
 
         // Check if email is empty
         if email.trimmingCharacters(in: .whitespaces).isEmpty {
-            emailError = "Email is required"
+            emailError = "email_required".localized()
             return false
         }
 
@@ -254,7 +255,7 @@ struct LoginView: View {
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
 
         if !emailPredicate.evaluate(with: email) {
-            emailError = "Please enter a valid email address"
+            emailError = "invalid_email".localized()
             return false
         }
 
@@ -266,13 +267,13 @@ struct LoginView: View {
 
         // Check if password is empty
         if password.isEmpty {
-            passwordError = "Password is required"
+            passwordError = "password_required".localized()
             return false
         }
 
         // Password length validation
         if password.count < 6 {
-            passwordError = "Password must be at least 6 characters"
+            passwordError = "password_min_length".localized()
             return false
         }
 
@@ -299,7 +300,7 @@ struct LoginView: View {
                 }
             } else {
                 await MainActor.run {
-                    alertMessage = authManager.errorMessage ?? "Login failed. Please try again."
+                    alertMessage = authManager.errorMessage ?? "login_failed".localized()
                     showAlert = true
                 }
             }
