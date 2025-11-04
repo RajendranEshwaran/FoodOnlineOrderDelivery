@@ -17,7 +17,7 @@ class CategoryDataManager {
     var categories: [FoodCategory] = [
         FoodCategory(
             name: "All",
-            image: "􀙭",
+            image: "hotfood",
             foodItems: []
         ),
         FoodCategory(
@@ -61,12 +61,12 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "Breads",
-            image: "hotdrink1",
+            image: "breads",
             foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "fried-chicken")
         ),
         FoodCategory(
             name: "Chicken",
-            image: "hotdrink1",
+            image: "chicken",
             foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "fried-chicken")
         ),
         FoodCategory(
@@ -81,7 +81,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "BBQ's",
-            image: "hotdrink1",
+            image: "bbq",
             foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "bbqs")
         ),
         FoodCategory(
@@ -106,7 +106,7 @@ class CategoryDataManager {
         ),
         FoodCategory(
             name: "IceCream",
-            image: "dessat1",
+            image: "icecream",
             foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "ice-cream")
         )
     ]
