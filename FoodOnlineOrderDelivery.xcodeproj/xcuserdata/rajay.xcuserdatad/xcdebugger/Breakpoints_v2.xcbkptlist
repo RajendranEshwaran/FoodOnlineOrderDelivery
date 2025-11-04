@@ -71,22 +71,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "FA63E858-5936-40CB-9421-3B42F8062361"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "FoodOnlineOrderDelivery/Managers/CategoryDataManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "categories"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "27625312-BDE5-41EC-9A12-5B5E04F0DA0F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -142,9 +126,9 @@
             filePath = "FoodOnlineOrderDelivery/Managers/CategoryDataManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "getFoodItems(for:)"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "loadFoodItemsForCategory(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

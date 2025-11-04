@@ -7,129 +7,135 @@
 
 import Foundation
 
+// MARK: - Category Definition
+struct CategoryDefinition {
+    let name: String
+    let image: String
+    let jsonFileName: String?
+    let staticItems: [FoodItem]
+
+    init(name: String, image: String, jsonFileName: String? = nil, staticItems: [FoodItem] = []) {
+        self.name = name
+        self.image = image
+        self.jsonFileName = jsonFileName
+        self.staticItems = staticItems
+    }
+}
+
 // MARK: - Mock Data
 class CategoryDataManager {
     static let shared = CategoryDataManager()
 
-    private init() {}
+    private init() {
+        // Pre-load only the category metadata
+        initializeCategories()
+    }
 
-    // Sample categories with food items
-    var categories: [FoodCategory] = [
-        FoodCategory(
-            name: "All",
-            image: "hotfood",
-            foodItems: []
-        ),
-        FoodCategory(
-            name: "Hot Dog",
-            image: "hotdog3",
-            foodItems: [
-                FoodItem(
-                    name: "Classic Hot Dog",
-                    description: "Juicy beef hot dog with mustard and ketchup",
-                    price: 5.99,
-                    image: "hotdog1",
-                    rating: 4.5,
-                    reviewCount: 120,
-                    restaurantName: "Hot Dog Haven",
-                    deliveryTime: "15-20 min",
-                    category: "Hot Dog"
-                ),
-                FoodItem(
-                    name: "Chili Cheese Dog",
-                    description: "Hot dog topped with chili and melted cheese",
-                    price: 7.99,
-                    image: "hotdog2",
-                    rating: 4.7,
-                    reviewCount: 95,
-                    restaurantName: "Dog House",
-                    deliveryTime: "20-25 min",
-                    category: "Hot Dog"
-                ),
-                FoodItem(
-                    name: "Chicago Style Dog",
-                    description: "All-beef hot dog with classic Chicago toppings",
-                    price: 8.49,
-                    image: "hotdog3",
-                    rating: 4.8,
-                    reviewCount: 150,
-                    restaurantName: "Windy City Dogs",
-                    deliveryTime: "25-30 min",
-                    category: "Hot Dog"
-                )
-            ]
-        ),
-        FoodCategory(
-            name: "Breads",
-            image: "breads",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "fried-chicken")
-        ),
-        FoodCategory(
-            name: "Chicken",
-            image: "chicken",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "fried-chicken")
-        ),
-        FoodCategory(
-            name: "Burger",
-            image: "burger1",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "burgers")
-        ),
-        FoodCategory(
-            name: "Sandwich",
-            image: "sandwich1",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "sandwiches")
-        ),
-        FoodCategory(
-            name: "BBQ's",
-            image: "bbq",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "bbqs")
-        ),
-        FoodCategory(
-            name: "Pizza",
-            image: "pizza1",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "pizzas")
-        ),
-        FoodCategory(
-            name: "Meal",
-            image: "meal5",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "meals")
-        ),
-        FoodCategory(
-            name: "Drinks",
-            image: "colddrink5",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "drinks")
-        ),
-        FoodCategory(
-            name: "Dessert",
-            image: "dessat1",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "desserts")
-        ),
-        FoodCategory(
-            name: "IceCream",
-            image: "icecream",
-            foodItems: JsonReadDataManager.shared.loadSandwiches(jsonFileName: "ice-cream")
-        )
-    ]
+    // Cache for loaded food items
+    private var foodItemsCache: [String: [FoodItem]] = [:]
+    private let cacheQueue = DispatchQueue(label: "com.fooddelivery.cache", attributes: .concurrent)
 
-    // Get all food items
-    func getAllFoodItems() -> [FoodItem] {
+    // Category definitions (lightweight)
+    private var categoryDefinitions: [CategoryDefinition] = []
+
+    private func initializeCategories() {
+        categoryDefinitions = [
+            CategoryDefinition(name: "All", image: "hotfood"),
+            CategoryDefinition(name: "Breads", image: "breads", jsonFileName: "fried-chicken"),
+            CategoryDefinition(name: "Chicken", image: "chicken", jsonFileName: "fried-chicken"),
+            CategoryDefinition(name: "Burger", image: "burger1", jsonFileName: "burgers"),
+            CategoryDefinition(name: "Sandwich", image: "sandwich1", jsonFileName: "sandwiches"),
+            CategoryDefinition(name: "BBQ's", image: "bbq", jsonFileName: "bbqs"),
+            CategoryDefinition(name: "Pizza", image: "pizza1", jsonFileName: "pizzas"),
+            CategoryDefinition(name: "Meal", image: "meal5", jsonFileName: "meals"),
+            CategoryDefinition(name: "Drinks", image: "colddrink5", jsonFileName: "drinks"),
+            CategoryDefinition(name: "Dessert", image: "dessat1", jsonFileName: "desserts"),
+            CategoryDefinition(name: "IceCream", image: "icecream", jsonFileName: "ice-cream")
+        ]
+    }
+
+    // Computed property for categories (lightweight)
+    var categories: [FoodCategory] {
+        return categoryDefinitions.map { definition in
+            FoodCategory(name: definition.name, image: definition.image, foodItems: [])
+        }
+    }
+
+    // Lazy load food items for a specific category
+    private func loadFoodItemsForCategory(_ categoryName: String) -> [FoodItem] {
+        // Check cache first
+        if let cachedItems = cacheQueue.sync(execute: { foodItemsCache[categoryName] }) {
+            return cachedItems
+        }
+
+        // Find category definition
+        guard let definition = categoryDefinitions.first(where: { $0.name == categoryName }) else {
+            return []
+        }
+
+        // Load items
+        var items: [FoodItem] = []
+
+        if !definition.staticItems.isEmpty {
+            items = definition.staticItems
+        } else if let jsonFileName = definition.jsonFileName {
+            items = JsonReadDataManager.shared.loadSandwiches(jsonFileName: jsonFileName)
+        }
+
+        // Cache the items
+        cacheQueue.async(flags: .barrier) { [weak self] in
+            self?.foodItemsCache[categoryName] = items
+        }
+
+        return items
+    }
+
+    // Get all food items (lazy loaded with limit)
+    func getAllFoodItems(limit: Int? = nil) -> [FoodItem] {
         var allItems: [FoodItem] = []
-        for category in categories where category.name != "All" {
-            allItems.append(contentsOf: category.foodItems)
+        for definition in categoryDefinitions where definition.name != "All" {
+            let items = loadFoodItemsForCategory(definition.name)
+            allItems.append(contentsOf: items)
+        }
+
+        if let limit = limit {
+            return Array(allItems.prefix(limit))
         }
         return allItems
     }
 
-    // Get food items by category
-    func getFoodItems(for categoryName: String) -> [FoodItem] {
+    // Get food items by category (lazy loaded)
+    func getFoodItems(for categoryName: String, limit: Int? = nil) -> [FoodItem] {
         if categoryName == "All" {
-            return getAllFoodItems()
+            return getAllFoodItems(limit: limit)
         }
-        return categories.first(where: { $0.name == categoryName })?.foodItems ?? []
+
+        let items = loadFoodItemsForCategory(categoryName)
+
+        if let limit = limit {
+            return Array(items.prefix(limit))
+        }
+        return items
     }
 
     // Get category names
     func getCategoryNames() -> [String] {
-        return categories.map { $0.name }
+        return categoryDefinitions.map { $0.name }
+    }
+
+    // Pre-load specific categories in background
+    func preloadCategories(_ categoryNames: [String]) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            for name in categoryNames {
+                _ = self?.loadFoodItemsForCategory(name)
+            }
+        }
+    }
+
+    // Clear cache if needed
+    func clearCache() {
+        cacheQueue.async(flags: .barrier) { [weak self] in
+            self?.foodItemsCache.removeAll()
+        }
     }
 }

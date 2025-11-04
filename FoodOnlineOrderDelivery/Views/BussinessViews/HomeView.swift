@@ -14,8 +14,11 @@ struct HomeView: View {
     @State private var cartItemCount: Int = 3
     @State private var showMenu: Bool = false
     @State private var selectedCategory: String = "All"
+    @State private var displayedItems: [FoodItem] = []
+    @State private var isLoadingMore: Bool = false
 
     let dataManager = CategoryDataManager.shared
+    private let itemsPerPage = 20
     
     // Computed property for time-based greeting
     private var greetingMessage: String {
@@ -115,14 +118,14 @@ struct HomeView: View {
 
                         // Horizontal Category Scroll
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 12) {
+                            LazyHStack(spacing: 12) {
                                 ForEach(dataManager.categories) { category in
                                     CategoryItem(
                                         title: category.name,
                                         isSelected: selectedCategory == category.name,
                                         action: {
                                             selectedCategory = category.name
-                                            print("\(category.name) selected")
+                                            loadItems()
                                         }, icon: category.image
                                     )
                                 }
@@ -132,7 +135,7 @@ struct HomeView: View {
                     }
 
                     // Food Items Section
-                    VStack(alignment: .leading, spacing: 16) {
+                    LazyVStack(alignment: .leading, spacing: 16, pinnedViews: []) {
                         Text("Popular Dishes")
                             .font(.headline)
                             .fontWeight(.bold)
@@ -140,17 +143,33 @@ struct HomeView: View {
                             .padding(.horizontal, 20)
 
                         // Display food items based on selected category
-                        let foodItems = dataManager.getFoodItems(for: selectedCategory)
-
-                        ForEach(foodItems) { item in
+                        ForEach(displayedItems) { item in
                             FoodItemCard(foodItem: item)
                                 .padding(.horizontal, 20)
+                                .onAppear {
+                                    // Load more when reaching near the end
+                                    if item.id == displayedItems.last?.id {
+                                        loadMoreItems()
+                                    }
+                                }
+                        }
+
+                        if isLoadingMore {
+                            HStack {
+                                Spacer()
+                                ProgressView()
+                                    .padding()
+                                Spacer()
+                            }
                         }
                     }
-
-                    Spacer()
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .onAppear {
+                loadItems()
+                // Pre-load popular categories in background
+                dataManager.preloadCategories(["Burger", "Pizza", "Sandwich"])
             }
         }
         .background(Color(UIColor.white))
@@ -174,6 +193,48 @@ struct HomeView: View {
             }
         )
         .animation(.easeInOut(duration: 0.3), value: showMenu)
+    }
+
+    // MARK: - Helper Methods
+    private func loadItems() {
+        // Reset displayed items
+        displayedItems = []
+
+        // Load items for selected category with initial limit
+        DispatchQueue.global(qos: .userInitiated).async {
+            let items = dataManager.getFoodItems(for: selectedCategory, limit: itemsPerPage)
+
+            DispatchQueue.main.async {
+                displayedItems = items
+            }
+        }
+    }
+
+    private func loadMoreItems() {
+        guard !isLoadingMore else { return }
+
+        isLoadingMore = true
+
+        DispatchQueue.global(qos: .background).async {
+            // Get all items for the category
+            let allItems = dataManager.getFoodItems(for: selectedCategory)
+
+            // Check if there are more items to load
+            let currentCount = displayedItems.count
+
+            if currentCount < allItems.count {
+                let nextBatch = Array(allItems[currentCount..<min(currentCount + itemsPerPage, allItems.count)])
+
+                DispatchQueue.main.async {
+                    displayedItems.append(contentsOf: nextBatch)
+                    isLoadingMore = false
+                }
+            } else {
+                DispatchQueue.main.async {
+                    isLoadingMore = false
+                }
+            }
+        }
     }
 }
 
