@@ -22,10 +22,22 @@ struct FoodCard: View {
                     .fill(Color.orange.opacity(0.1))
                     .frame(height: 140)
 
-                Image(foodImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 120)
+                AsyncImage(url: URL(string: foodImage)){ phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    } else if phase.error != nil {
+                        Image("noImage")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 120)
+                    } else {
+                        ProgressView()
+                    }
+                }
+                    
             }
             .onTapGesture {
                 onCardTapped?()

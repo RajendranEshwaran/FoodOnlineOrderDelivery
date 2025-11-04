@@ -27,19 +27,17 @@ struct CartView: View {
                         .cornerRadius(12)
                         .clipped()
                 } else if phase.error != nil {
-                        Image("noImage")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(12)
-                            .clipped()
-                    } else {
-                        ProgressView()
-                    }
+                    Image("noImage")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(12)
+                        .clipped()
+                } else {
+                    ProgressView()
                 }
             }
-                
-            
+
             // Item Details
             VStack(alignment: .leading, spacing: 6) {
                 // Item Name
