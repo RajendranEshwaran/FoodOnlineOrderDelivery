@@ -45,6 +45,7 @@ class AuthManager: ObservableObject {
     // Verification properties
     @Published var verificationCode: String = ""
     @Published var isVerified: Bool = false
+    @Published var generatedCode: String = "" // Store the generated code for verification
 
     // Track if user is new (from signup) or existing (from login)
     @Published var isNewUser: Bool = false
@@ -117,16 +118,18 @@ class AuthManager: ObservableObject {
         // Simulate API call
         try? await Task.sleep(nanoseconds: 1_500_000_000)
 
-        // Mock verification logic (you can replace with actual API call)
-        let isValid = fullCode == "1234" // Mock: accept "1234" as valid code
+        // Verification logic - check against generated code
+        let isValid = fullCode == generatedCode
 
         try await MainActor.run {
             if isValid {
                 isVerified = true
                 authState = .authenticated
                 verificationCode = fullCode
+                print("✅ Verification successful!")
             } else {
                 errorMessage = VerificationError.invalidCode.errorDescription
+                print("❌ Verification failed. Expected: \(generatedCode), Got: \(fullCode)")
                 throw VerificationError.invalidCode
             }
             isLoading = false
@@ -140,6 +143,9 @@ class AuthManager: ObservableObject {
         await MainActor.run {
             isLoading = true
             errorMessage = nil
+            // Generate and store the code
+            generatedCode = generateCode()
+            print("📧 Verification code sent to \(email): \(generatedCode)")
         }
 
         // Simulate API call
@@ -156,6 +162,12 @@ class AuthManager: ObservableObject {
     /// Resend verification code
     func resendVerificationCode() async -> Bool {
         await sendVerificationCode(to: currentUser?.email ?? "")
+    }
+
+    /// Generate a 4-digit random verification code
+    func generateCode() -> String {
+        let randomNumber = Int.random(in: 1000...9999)
+        return String(randomNumber)
     }
 
     /// Reset password
@@ -181,6 +193,7 @@ class AuthManager: ObservableObject {
         currentUser = nil
         isVerified = false
         verificationCode = ""
+        generatedCode = ""
         errorMessage = nil
     }
 

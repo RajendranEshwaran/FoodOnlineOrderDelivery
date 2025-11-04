@@ -326,7 +326,7 @@ struct CartItemsListView: View {
 
                             Text("SAVE10 • SAVE20 • FREESHIP • WELCOME")
                                 .font(.system(size: 11, weight: .medium))
-                                .foregroundColor(.orange)
+                                .foregroundColor(.green)
                         }
                         .padding(.top, 4)
                     }
