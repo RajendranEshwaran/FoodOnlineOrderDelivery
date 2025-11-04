@@ -144,14 +144,19 @@ struct HomeView: View {
 
                         // Display food items based on selected category
                         ForEach(displayedItems) { item in
-                            FoodItemCard(foodItem: item)
-                                .padding(.horizontal, 20)
-                                .onAppear {
-                                    // Load more when reaching near the end
-                                    if item.id == displayedItems.last?.id {
-                                        loadMoreItems()
-                                    }
+                            Button(action: {
+                                coordinator.coordinatorPagePush(page: .foodDetailPage(foodItem: item))
+                            }) {
+                                FoodItemCard(foodItem: item)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.horizontal, 20)
+                            .onAppear {
+                                // Load more when reaching near the end
+                                if item.id == displayedItems.last?.id {
+                                    loadMoreItems()
                                 }
+                            }
                         }
 
                         if isLoadingMore {

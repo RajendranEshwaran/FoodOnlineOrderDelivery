@@ -19,7 +19,7 @@ enum AppPages: Hashable {
     case homePage
     case searchPage
     case foodCategoryPage(categoryName: String)
-    case foodDetailPage(selectedFoodName: String)
+    case foodDetailPage(foodItem: FoodItem)
     case restaurantPage(restaurant: Restaurant, selectedKeyword: String)
     case paymentPage(totalAmount: Double)
     case addCardPage
@@ -106,12 +106,8 @@ class Coordinator: ObservableObject {
             case .homePage: HomeView()
             case .searchPage: SearchView()
             case .foodCategoryPage(let categoryName): FoodCategoryView(selectedKeyword: categoryName)
-            case .foodDetailPage(let selectedFoodName):
-                if let foodItem = getFoodItem(byName: selectedFoodName) {
-                    FoodDetailView(foodItem: foodItem, selectedFoodName: selectedFoodName)
-                } else {
-                    EmptyView()
-                }
+            case .foodDetailPage(let foodItem):
+                FoodDetailView(foodItem: foodItem, selectedFoodName: foodItem.name)
             case .restaurantPage(let restaurant, let selectedKeyword): RestaurantView(restaurant: restaurant, selectedKeyword: selectedKeyword)
             case .paymentPage(let totalAmount): PaymentView(totalAmount: totalAmount)
             case .addCardPage: AddCardView()

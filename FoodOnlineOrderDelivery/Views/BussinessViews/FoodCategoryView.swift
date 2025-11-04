@@ -32,7 +32,7 @@ struct FoodCategoryView: View {
                 isBackEnable: true,
                 isUserInfo: false,
                 onCartTap: {
-                    print("Cart tapped")
+                    coordinator.coordinatorPagePush(page: .cartPage)
                 }, onBackTap: {
                     coordinator.coordinatorPopToPage()
                 }
@@ -129,7 +129,7 @@ struct FoodCategoryView: View {
 
     private func handleFoodCardTap(foodItem: FoodItem) {
         print("Food card tapped: \(foodItem.name)")
-        coordinator.coordinatorPagePush(page: .foodDetailPage(selectedFoodName: foodItem.name))
+        coordinator.coordinatorPagePush(page: .foodDetailPage(foodItem: foodItem))
     }
 
     private func handleRestaurantTap(restaurant: Restaurant) {

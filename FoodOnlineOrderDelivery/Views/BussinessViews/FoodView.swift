@@ -24,7 +24,7 @@ struct FoodView: View {
                 isBackEnable: true,
                 isUserInfo: false,
                 onCartTap: {
-                    print("Cart tapped")
+                    coordinator.coordinatorPagePush(page: .cartPage)
                 }, onBackTap: {
                     coordinator.coordinatorPopToPage()
                 })

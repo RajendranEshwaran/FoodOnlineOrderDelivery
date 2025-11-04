@@ -34,7 +34,7 @@ struct FoodDetailView: View {
                 isBackEnable: true,
                 isUserInfo: false,
                 onCartTap: {
-                    print("Cart tapped")
+                    coordinator.coordinatorPagePush(page: .cartPage)
                 }, onBackTap: {
                     coordinator.coordinatorPopToPage()
                 }
@@ -44,12 +44,26 @@ struct FoodDetailView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     // Food Image
                     ZStack(alignment: .topTrailing) {
-                        Image(foodItem.image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 200)
-                            .frame(maxWidth: .infinity)
-                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                        AsyncImage(url: URL(string: foodItem.image)){ phase in
+                            if let image = phase.image {
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(height: 200)
+                                    .frame(maxWidth: .infinity)
+                                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                            } else if phase.error != nil {
+                                Image("noImage")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(height: 200)
+                                    .frame(maxWidth: .infinity)
+                                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                            } else {
+                                ProgressView()
+                            }
+                            
+                        }
 
                         // Favorite Button
                         Button(action: {

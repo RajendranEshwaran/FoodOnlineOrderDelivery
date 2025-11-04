@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // MARK: - Food Item Model
-struct FoodItem: Identifiable, Codable {
+struct FoodItem: Identifiable, Codable, Hashable {
     let id: String
     let name: String
     let description: String
