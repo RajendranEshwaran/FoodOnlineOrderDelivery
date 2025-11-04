@@ -44,47 +44,48 @@ struct HomeView: View {
                     coordinator.coordinatorPagePush(page: .cartPage)
                 }
             )
+            // Greeting Section
+            HStack(spacing: 8) {
+                Text("Hey \(authManager.currentUser?.name ?? "User"),")
+                    .font(.body)
+                    .foregroundColor(.black)
 
+                Text(greetingMessage)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.black)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+
+            // Search Bar
+            Button(action: {
+                coordinator.coordinatorPagePush(page: .searchPage)
+            }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                        .font(.body)
+
+                    Text("Search dishes, restaurants")
+                        .font(.body)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(Color(UIColor.systemGray6))
+                .cornerRadius(12)
+            }
+            .padding(.horizontal, 20)
+            
             // Main Content Area
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Greeting Section
-                    HStack(spacing: 8) {
-                        Text("Hey \(authManager.currentUser?.name ?? "User"),")
-                            .font(.body)
-                            .foregroundColor(.black)
-
-                        Text(greetingMessage)
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.black)
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
-
-                    // Search Bar
-                    Button(action: {
-                        coordinator.coordinatorPagePush(page: .searchPage)
-                    }) {
-                        HStack(spacing: 12) {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                                .font(.body)
-
-                            Text("Search dishes, restaurants")
-                                .font(.body)
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                            Spacer()
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(Color(UIColor.systemGray6))
-                        .cornerRadius(12)
-                    }
-                    .padding(.horizontal, 20)
-
+                    
                     // All Categories Section
                     VStack(alignment: .leading, spacing: 12) {
                         // Header with "See All"

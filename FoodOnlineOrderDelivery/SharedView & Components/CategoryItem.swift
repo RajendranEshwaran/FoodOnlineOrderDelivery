@@ -15,23 +15,27 @@ struct CategoryItem: View {
     var body: some View {
             
             Button(action: action) {
-                HStack {
-                    Image(icon)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.gray))
-                        .shadow(radius: 2)
-                    
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 44, height: 44)
+                            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 2)
+
+                        Image(icon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28)
+                    }
+
                     Text(title)
                         .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundColor(isSelected ? .white : .black)
-                        
-                }.padding(.horizontal, 10)
-                    .padding(.vertical, 10)
-                    .background(isSelected ? Color("ButtonColor") : Color(UIColor.white))
+
+                }.padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(isSelected ? Color("ButtonColor") : Color(UIColor.systemGray6))
                     .cornerRadius(30)
             }
         
