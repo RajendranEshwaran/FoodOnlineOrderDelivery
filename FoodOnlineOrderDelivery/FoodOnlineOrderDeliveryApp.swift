@@ -12,12 +12,21 @@ import SwiftData
 struct FoodOnlineOrderDeliveryApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            UserAccount.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+
+            // Initialize DataManager with the shared container
+            Task { @MainActor in
+                DataManager.shared.modelContainer = container
+                DataManager.shared.modelContext = ModelContext(container)
+                print("✅ SwiftData initialized successfully")
+            }
+
+            return container
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

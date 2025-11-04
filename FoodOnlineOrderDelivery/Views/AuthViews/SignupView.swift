@@ -10,12 +10,14 @@ import SwiftUI
 struct SignupView: View {
     @State private var name: String = ""
     @State private var email: String = ""
+    @State private var phoneNumber: String = ""
     @State private var password: String = ""
     @State private var retypePassword: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var isRetypePasswordVisible: Bool = false
     @State private var nameError: String?
     @State private var emailError: String?
+    @State private var phoneNumberError: String?
     @State private var passwordError: String?
     @State private var retypePasswordError: String?
 
@@ -81,6 +83,26 @@ struct SignupView: View {
 
                                     if let emailError = emailError {
                                         Text(emailError)
+                                            .font(.caption)
+                                            .foregroundColor(.red)
+                                    }
+                                }
+
+                                // Phone Number Field
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("Phone Number")
+                                        .font(.headline)
+                                        .foregroundColor(.black)
+
+                                    TextField("Enter your phone number", text: $phoneNumber)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .keyboardType(.phonePad)
+                                        .onChange(of: phoneNumber) { _, _ in
+                                            phoneNumberError = nil
+                                        }
+
+                                    if let phoneNumberError = phoneNumberError {
+                                        Text(phoneNumberError)
                                             .font(.caption)
                                             .foregroundColor(.red)
                                     }
@@ -257,6 +279,30 @@ struct SignupView: View {
         return true
     }
 
+    private func validatePhoneNumber() -> Bool {
+        phoneNumberError = nil
+
+        if phoneNumber.trimmingCharacters(in: .whitespaces).isEmpty {
+            phoneNumberError = "Phone number is required"
+            return false
+        }
+
+        // Remove all non-digit characters for validation
+        let digitsOnly = phoneNumber.filter { $0.isNumber }
+
+        if digitsOnly.count < 10 {
+            phoneNumberError = "Phone number must be at least 10 digits"
+            return false
+        }
+
+        if digitsOnly.count > 15 {
+            phoneNumberError = "Phone number is too long"
+            return false
+        }
+
+        return true
+    }
+
     private func validatePassword() -> Bool {
         passwordError = nil
 
@@ -293,22 +339,25 @@ struct SignupView: View {
         // Validate all inputs
         let isNameValid = validateName()
         let isEmailValid = validateEmail()
+        let isPhoneValid = validatePhoneNumber()
         let isPasswordValid = validatePassword()
         let isRetypePasswordValid = validateRetypePassword()
 
-        guard isNameValid && isEmailValid && isPasswordValid && isRetypePasswordValid else {
+        guard isNameValid && isEmailValid && isPhoneValid && isPasswordValid && isRetypePasswordValid else {
             return
         }
 
         // Perform sign up
         Task {
-            // TODO: Implement signup in AuthManager
-            // For now, simulate success and navigate to verification
-            await MainActor.run {
-                // Mark user as new (coming from signup)
-                authManager.isNewUser = true
-                coordinator.coordinatorPagePush(page: .verificationPage)
+            let success = await authManager.signup(email: email, name: name, phoneNumber: phoneNumber, password: password)
+
+            if success {
+                await MainActor.run {
+                    // Navigate to verification page
+                    coordinator.coordinatorPagePush(page: .verificationPage)
+                }
             }
+            // Error message is already set in AuthManager
         }
     }
 }

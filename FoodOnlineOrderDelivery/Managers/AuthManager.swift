@@ -57,6 +57,56 @@ class AuthManager: ObservableObject {
 
     // MARK: - Authentication Methods
 
+    /// Sign up with email, name, phone number, and password
+    func signup(email: String, name: String, phoneNumber: String, password: String) async -> Bool {
+        await MainActor.run {
+            isLoading = true
+            authState = .verifying
+            errorMessage = nil
+            isNewUser = true // New user signing up
+        }
+
+        // Simulate API call
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
+
+        // Validate inputs
+        guard !email.isEmpty, !name.isEmpty, !phoneNumber.isEmpty, !password.isEmpty else {
+            await MainActor.run {
+                authState = .error("All fields are required")
+                errorMessage = "All fields are required"
+                isLoading = false
+            }
+            return false
+        }
+
+        // Create user in database
+        do {
+            let userAccount = try await DataManager.shared.createUser(email: email, name: name, phoneNumber: phoneNumber, password: password)
+
+            await MainActor.run {
+                currentUser = userAccount.toUser()
+                isLoading = false
+                print("✅ Signup successful for: \(email)")
+            }
+
+            return true
+        } catch DataError.userAlreadyExists {
+            await MainActor.run {
+                authState = .error("User with this email already exists")
+                errorMessage = "User with this email already exists"
+                isLoading = false
+            }
+            return false
+        } catch {
+            await MainActor.run {
+                authState = .error("Signup failed: \(error.localizedDescription)")
+                errorMessage = "Signup failed. Please try again."
+                isLoading = false
+            }
+            return false
+        }
+    }
+
     /// Login with email and password
     func login(email: String, password: String) async -> Bool {
         await MainActor.run {
@@ -69,7 +119,7 @@ class AuthManager: ObservableObject {
         // Simulate API call
         try? await Task.sleep(nanoseconds: 1_000_000_000)
 
-        // Validate credentials (mock implementation)
+        // Validate credentials
         guard !email.isEmpty, !password.isEmpty else {
             await MainActor.run {
                 authState = .error("Email and password cannot be empty")
@@ -79,13 +129,32 @@ class AuthManager: ObservableObject {
             return false
         }
 
-        await MainActor.run {
-            authState = .authenticated
-            currentUser = User(id: UUID().uuidString, email: email, name: "User")
-            isLoading = false
+        // Authenticate user from database
+        do {
+            if let userAccount = try await DataManager.shared.authenticateUser(email: email, password: password) {
+                await MainActor.run {
+                    authState = .authenticated
+                    currentUser = userAccount.toUser()
+                    isLoading = false
+                    print("✅ Login successful for: \(email)")
+                }
+                return true
+            } else {
+                await MainActor.run {
+                    authState = .error("Invalid email or password")
+                    errorMessage = "Invalid email or password"
+                    isLoading = false
+                }
+                return false
+            }
+        } catch {
+            await MainActor.run {
+                authState = .error("Login failed: \(error.localizedDescription)")
+                errorMessage = "Login failed. Please try again."
+                isLoading = false
+            }
+            return false
         }
-
-        return true
     }
 
     /// Verify code with 4-digit verification code
@@ -121,18 +190,31 @@ class AuthManager: ObservableObject {
         // Verification logic - check against generated code
         let isValid = fullCode == generatedCode
 
-        try await MainActor.run {
-            if isValid {
+        if isValid {
+            // Update verification status in database first
+            if let userId = currentUser?.id {
+                do {
+                    try await DataManager.shared.updateUserVerification(userId: userId, isVerified: true)
+                    print("✅ Verification successful and saved to database!")
+                } catch {
+                    print("⚠️ Verification successful but failed to update database: \(error)")
+                }
+            }
+
+            // Update UI state
+            await MainActor.run {
                 isVerified = true
                 authState = .authenticated
                 verificationCode = fullCode
-                print("✅ Verification successful!")
-            } else {
-                errorMessage = VerificationError.invalidCode.errorDescription
-                print("❌ Verification failed. Expected: \(generatedCode), Got: \(fullCode)")
-                throw VerificationError.invalidCode
+                isLoading = false
             }
-            isLoading = false
+        } else {
+            await MainActor.run {
+                errorMessage = VerificationError.invalidCode.errorDescription
+                isLoading = false
+            }
+            print("❌ Verification failed. Expected: \(generatedCode), Got: \(fullCode)")
+            throw VerificationError.invalidCode
         }
 
         return isValid

@@ -9,11 +9,12 @@ import SwiftUI
 
 struct PersonalInfoView: View {
     @EnvironmentObject private var coordinator: Coordinator
+    @EnvironmentObject private var authManager: AuthManager
     @State private var isEditMode = false
     @State private var profileImage = ""
-    @State private var fullName = "John Doe"
+    @State private var fullName = ""
     @State private var statusMessage = "Active User"
-    @State private var email = "john.doe@example.com"
+    @State private var email = ""
     @State private var phoneNumber = "+1 234 567 8900"
 
     // Temporary state for editing
@@ -197,6 +198,12 @@ struct PersonalInfoView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear {
+            fullName = authManager.currentUser?.name ?? fullName
+            email = authManager.currentUser?.email ?? email
+            phoneNumber = authManager.currentUser?.phoneNumber ?? phoneNumber
+            profileImage = authManager.currentUser?.profileImageURL ?? profileImage
+        }
     }
 
     private func enterEditMode() {
