@@ -10,10 +10,10 @@ import SwiftUI
 struct SearchView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var coordinator: Coordinator
+    @ObservedObject private var cartManager = CartManager.shared
     @State private var searchText: String = ""
     @State private var searchResults: [FoodItem] = []
     @FocusState private var isSearchFocused: Bool
-    @State private var cartItemCount: Int = 3
     @State private var recentSearches: [String] = []
     @State private var suggestedRestaurants: [Restaurant] = []
     @State private var popularFastFoods: [PopularFastFood] = []
@@ -31,7 +31,7 @@ struct SearchView: View {
             // Top Panel
             TopPanel(
                 userName: "Search",
-                cartItemCount: cartItemCount,
+                cartItemCount: cartManager.itemCount,
                 isMenuEnable: false,
                 isBackEnable: true,
                 isUserInfo: false,

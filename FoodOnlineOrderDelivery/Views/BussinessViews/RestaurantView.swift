@@ -10,7 +10,7 @@ import SwiftUI
 struct RestaurantView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var coordinator: Coordinator
-    @State private var cartItemCount: Int = 3
+    @ObservedObject private var cartManager = CartManager.shared
     @State private var recentSearches: [String] = ["Pizza", "Burger", "Hot Dog", "Sandwich", "Dessert"]
     @State private var selectedSearch: String = ""
     let restaurant: Restaurant
@@ -27,7 +27,7 @@ struct RestaurantView: View {
             // Top Panel
             TopPanel(
                 userName: "Restaurant",
-                cartItemCount: cartItemCount,
+                cartItemCount: cartManager.itemCount,
                 isMenuEnable: false,
                 isBackEnable: true,
                 isUserInfo: false,
@@ -242,8 +242,7 @@ struct RestaurantView: View {
     // MARK: - Actions
     private func handleAddToCart(foodItem: FoodItem) {
         print("Added to cart: \(foodItem.name)")
-        // TODO: Implement cart functionality
-        cartItemCount += 1
+        cartManager.addItem(foodItem: foodItem, quantity: 1, size: "Medium")
     }
 
     private func handleFoodCardTap(foodItem: FoodItem) {

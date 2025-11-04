@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Cart Item Model
-struct CartItem: Identifiable, Hashable {
+struct CartItem: Identifiable, Hashable, Codable {
     let id: String
     let name: String
     let image: String
@@ -31,5 +31,10 @@ struct CartItem: Identifiable, Hashable {
         self.size = size
         self.quantity = quantity
         self.restaurantName = restaurantName
+    }
+
+    // Computed property for total price
+    var totalPrice: Double {
+        price * Double(quantity)
     }
 }

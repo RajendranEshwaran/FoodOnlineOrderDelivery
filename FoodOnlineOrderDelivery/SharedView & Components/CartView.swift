@@ -18,12 +18,27 @@ struct CartView: View {
       
         HStack(spacing: 12) {
             // Item Image
-            Image(item.image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 80, height: 80)
-                .cornerRadius(12)
-                .clipped()
+            AsyncImage(url: URL(string: item.image)) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(12)
+                        .clipped()
+                } else if phase.error != nil {
+                        Image("noImage")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(12)
+                            .clipped()
+                    } else {
+                        ProgressView()
+                    }
+                }
+            }
+                
             
             // Item Details
             VStack(alignment: .leading, spacing: 6) {
@@ -122,10 +137,18 @@ struct CartItemsListView: View {
     var onEditAddress: (() -> Void)?
     var onPlaceOrder: (() -> Void)?
     var deliveryAddress: String = "123 Main Street, Apt 4B, New York, NY 10001"
+    var deliveryFee: Double = 2.99
+    var tax: Double = 0.0
+    var subtotal: Double = 0.0
+    var total: Double = 0.0
+    var promoCode: String? = nil
+    var promoDiscount: Double = 0.0
+    var onApplyPromo: ((String) -> Bool)?
+    var onRemovePromo: (() -> Void)?
 
-    var totalPrice: Double {
-        items.reduce(0) { $0 + ($1.price * Double($1.quantity)) }
-    }
+    @State private var promoCodeInput: String = ""
+    @State private var showPromoError: Bool = false
+    @State private var showPromoSuccess: Bool = false
 
     var totalItems: Int {
         items.reduce(0) { $0 + $1.quantity }
@@ -221,6 +244,96 @@ struct CartItemsListView: View {
                     .cornerRadius(12)
                 }
 
+                // Promo Code Section
+                VStack(alignment: .leading, spacing: 12) {
+                    Divider()
+                        .padding(.vertical, 8)
+
+                    Text("Promo Code")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.black)
+
+                    if let appliedPromo = promoCode {
+                        // Show applied promo code
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+
+                            Text(appliedPromo)
+                                .font(.system(size: 15, weight: .medium))
+                                .foregroundColor(.green)
+
+                            Spacer()
+
+                            Text("-$\(String(format: "%.2f", promoDiscount))")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.green)
+
+                            Button(action: {
+                                onRemovePromo?()
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .padding(12)
+                        .background(Color.green.opacity(0.1))
+                        .cornerRadius(8)
+                    } else {
+                        // Promo code input
+                        HStack(spacing: 8) {
+                            TextField("Enter promo code", text: $promoCodeInput)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .textInputAutocapitalization(.characters)
+
+                            Button(action: {
+                                applyPromoCode()
+                            }) {
+                                Text("Apply")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .background(promoCodeInput.isEmpty ? Color.gray : Color.orange)
+                                    .cornerRadius(8)
+                            }
+                            .disabled(promoCodeInput.isEmpty)
+                        }
+
+                        if showPromoError {
+                            HStack {
+                                Image(systemName: "exclamationmark.circle.fill")
+                                    .foregroundColor(.red)
+                                Text("Invalid promo code")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.red)
+                            }
+                        }
+
+                        if showPromoSuccess {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                                Text("Promo code applied!")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.green)
+                            }
+                        }
+
+                        // Show available promo codes
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Available codes:")
+                                .font(.system(size: 12))
+                                .foregroundColor(.gray)
+
+                            Text("SAVE10 • SAVE20 • FREESHIP • WELCOME")
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundColor(.orange)
+                        }
+                        .padding(.top, 4)
+                    }
+                }
+
                 // Total Section
                 VStack(spacing: 12) {
                     Divider()
@@ -233,7 +346,7 @@ struct CartItemsListView: View {
 
                         Spacer()
 
-                        Text("$\(String(format: "%.2f", totalPrice))")
+                        Text("$\(String(format: "%.2f", subtotal))")
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(.black)
                     }
@@ -245,9 +358,37 @@ struct CartItemsListView: View {
 
                         Spacer()
 
-                        Text("$2.99")
+                        Text("$\(String(format: "%.2f", deliveryFee))")
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundColor(.black)
+                    }
+
+                    if tax > 0 {
+                        HStack {
+                            Text("Tax (8%)")
+                                .font(.system(size: 16))
+                                .foregroundColor(.gray)
+
+                            Spacer()
+
+                            Text("$\(String(format: "%.2f", tax))")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.black)
+                        }
+                    }
+
+                    if promoDiscount > 0 {
+                        HStack {
+                            Text("Promo Discount")
+                                .font(.system(size: 16))
+                                .foregroundColor(.green)
+
+                            Spacer()
+
+                            Text("-$\(String(format: "%.2f", promoDiscount))")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.green)
+                        }
                     }
 
                     Divider()
@@ -259,7 +400,7 @@ struct CartItemsListView: View {
 
                         Spacer()
 
-                        Text("$\(String(format: "%.2f", totalPrice + 2.99))")
+                        Text("$\(String(format: "%.2f", total))")
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.orange)
                     }
@@ -280,10 +421,35 @@ struct CartItemsListView: View {
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    .background(Color.orange)
+                    .background(items.isEmpty ? Color.gray : Color.orange)
                     .cornerRadius(12)
                 }
+                .disabled(items.isEmpty)
                 .padding(.top, 16)
+            }
+        }
+    }
+
+    // MARK: - Helper Methods
+    private func applyPromoCode() {
+        showPromoError = false
+        showPromoSuccess = false
+
+        if let onApply = onApplyPromo {
+            let success = onApply(promoCodeInput)
+            if success {
+                showPromoSuccess = true
+                promoCodeInput = ""
+                // Hide success message after 2 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    showPromoSuccess = false
+                }
+            } else {
+                showPromoError = true
+                // Hide error message after 3 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    showPromoError = false
+                }
             }
         }
     }

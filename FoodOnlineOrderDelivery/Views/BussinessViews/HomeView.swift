@@ -11,7 +11,7 @@ struct HomeView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var coordinator: Coordinator
     @EnvironmentObject private var authManager: AuthManager
-    @State private var cartItemCount: Int = 3
+    @ObservedObject private var cartManager = CartManager.shared
     @State private var showMenu: Bool = false
     @State private var selectedCategory: String = "All"
     @State private var displayedItems: [FoodItem] = []
@@ -38,7 +38,7 @@ struct HomeView: View {
             // Top Panel
             TopPanel(
                 userName: authManager.currentUser?.name ?? "User",
-                cartItemCount: cartItemCount,
+                cartItemCount: cartManager.itemCount,
                 isMenuEnable: true,
                 onMenuTap: {
                     showMenu.toggle()

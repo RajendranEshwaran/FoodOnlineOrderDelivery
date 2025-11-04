@@ -18,9 +18,10 @@ enum FoodSize: String, CaseIterable {
 struct FoodDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var coordinator: Coordinator
-    @State private var cartItemCount: Int = 3
+    @ObservedObject private var cartManager = CartManager.shared
     @State private var quantity: Int = 1
     @State private var selectedSize: FoodSize = .medium
+    @State private var showAddedToCartAlert: Bool = false
 
     let foodItem: FoodItem
     let selectedFoodName: String
@@ -29,7 +30,7 @@ struct FoodDetailView: View {
             // Top Panel
             TopPanel(
                 userName: selectedFoodName,
-                cartItemCount: cartItemCount,
+                cartItemCount: cartManager.itemCount,
                 isMenuEnable: false,
                 isBackEnable: true,
                 isUserInfo: false,
@@ -267,13 +268,28 @@ struct FoodDetailView: View {
         }
         .background(Color.white)
         .navigationBarHidden(true)
+        .alert("Added to Cart", isPresented: $showAddedToCartAlert) {
+            Button("Continue Shopping", role: .cancel) { }
+            Button("View Cart") {
+                coordinator.coordinatorPagePush(page: .cartPage)
+            }
+        } message: {
+            Text("\(quantity) x \(selectedSize.rawValue) \(foodItem.name) added to your cart!")
+        }
     }
 
     // MARK: - Actions
     private func handleAddToCart() {
+        // Add item to cart using CartManager
+        cartManager.addItem(foodItem: foodItem, quantity: quantity, size: selectedSize.rawValue)
+
         print("Added \(quantity) x \(selectedSize.rawValue) \(foodItem.name) to cart")
-        cartItemCount += quantity
-        // TODO: Implement cart functionality
+
+        // Show success alert
+        showAddedToCartAlert = true
+
+        // Reset quantity to 1 after adding
+        quantity = 1
     }
 }
 

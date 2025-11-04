@@ -10,50 +10,17 @@ import SwiftUI
 struct CartDetailView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var coordinator: Coordinator
-    @State private var cartItemCount: Int = 3
-
-    // Sample cart items - in real app, this would come from a cart manager
-    private let cartItems = [
-        CartItem(
-            name: "Classic Cheeseburger",
-            image: "burger1",
-            price: 9.99,
-            size: "Large",
-            quantity: 2,
-            restaurantName: "Burger Palace"
-        ),
-        CartItem(
-            name: "Pepperoni Pizza",
-            image: "pizza2",
-            price: 12.99,
-            size: "Medium",
-            quantity: 1,
-            restaurantName: "Tony's Pizzeria"
-        ),
-        CartItem(
-            name: "Hot Dog",
-            image: "hotdog1",
-            price: 5.99,
-            size: "Small",
-            quantity: 3,
-            restaurantName: "Hot Dog Haven"
-        )
-    ]
-
-    // Calculate total price
-    private var totalPrice: Double {
-        let subtotal = cartItems.reduce(0) { $0 + ($1.price * Double($1.quantity)) }
-        let deliveryFee = 2.99
-        return subtotal + deliveryFee
-    }
+    @ObservedObject private var cartManager = CartManager.shared
+    @State private var showClearCartAlert: Bool = false
+    @State private var deliveryAddress: String = "123 Main Street, Apt 4B, New York, NY 10001"
 
     var body: some View {
         ZStack {
-            //Color.black
-            VStack {
+            VStack(spacing: 0) {
+                // Top Panel with Clear Cart option
                 TopPanel(
                     userName: "Cart",
-                    cartItemCount: cartItemCount,
+                    cartItemCount: cartManager.itemCount,
                     isMenuEnable: false,
                     isBackEnable: true,
                     isUserInfo: false,
@@ -64,29 +31,99 @@ struct CartDetailView: View {
                         coordinator.coordinatorPopToPage()
                     }
                 )
+
+                // Clear Cart Button (only show if cart has items)
+                if !cartManager.isEmpty {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            showClearCartAlert = true
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "trash")
+                                    .font(.system(size: 14))
+                                Text("Clear Cart")
+                                    .font(.system(size: 14, weight: .medium))
+                            }
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(Color.red.opacity(0.1))
+                            .cornerRadius(8)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+                }
+
                 ScrollView {
                     CartItemsListView(
-                        items: cartItems,
+                        items: cartManager.cartItems,
                         onQuantityChanged: { id, newQuantity in
-                            print("Quantity changed to \(newQuantity) for item: \(id)")
+                            handleQuantityChanged(id: id, newQuantity: newQuantity)
                         },
                         onRemove: { id in
-                            print("Remove item: \(id)")
+                            handleRemoveItem(id: id)
                         },
                         onEditAddress: {
-                            print("Edit address tapped")
-                            // TODO: Navigate to address edit page
+                            handleEditAddress()
                         },
                         onPlaceOrder: {
-                            print("Place order tapped - Total: $\(String(format: "%.2f", totalPrice))")
-                            coordinator.coordinatorPagePush(page: .paymentPage(totalAmount: totalPrice))
+                            handlePlaceOrder()
                         },
-                        deliveryAddress: "123 Main Street, Apt 4B, New York, NY 10001"
+                        deliveryAddress: deliveryAddress,
+                        deliveryFee: cartManager.deliveryFee,
+                        tax: cartManager.tax,
+                        subtotal: cartManager.subtotal,
+                        total: cartManager.total,
+                        promoCode: cartManager.promoCode,
+                        promoDiscount: cartManager.promoDiscount,
+                        onApplyPromo: { code in
+                            handleApplyPromo(code: code)
+                        },
+                        onRemovePromo: {
+                            cartManager.removePromoCode()
+                        }
                     )
                     .padding(.horizontal, 20)
                 }
             }
-        }.navigationBarBackButtonHidden()
+        }
+        .navigationBarBackButtonHidden()
+        .alert("Clear Cart", isPresented: $showClearCartAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Clear", role: .destructive) {
+                cartManager.clearCart()
+            }
+        } message: {
+            Text("Are you sure you want to remove all items from your cart?")
+        }
+    }
+
+    // MARK: - Helper Methods
+    private func handleQuantityChanged(id: String, newQuantity: Int) {
+        if let item = cartManager.cartItems.first(where: { $0.id == id }) {
+            cartManager.updateQuantity(for: item, quantity: newQuantity)
+        }
+    }
+
+    private func handleRemoveItem(id: String) {
+        cartManager.removeItem(withId: id)
+    }
+
+    private func handleEditAddress() {
+        coordinator.coordinatorPagePush(page: .addressPage)
+    }
+
+    private func handlePlaceOrder() {
+        if cartManager.isEmpty {
+            return
+        }
+        coordinator.coordinatorPagePush(page: .paymentPage(totalAmount: cartManager.total))
+    }
+
+    private func handleApplyPromo(code: String) -> Bool {
+        return cartManager.applyPromoCode(code)
     }
 }
 
