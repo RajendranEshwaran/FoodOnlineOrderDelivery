@@ -20,18 +20,17 @@ A modern, feature-rich iOS food delivery application built with SwiftUI, offerin
 
 <p>
 <img width="250" height="541" alt="Splash Page_02" src="https://github.com/user-attachments/assets/e95a3d3f-49ce-43aa-b56d-52b7dfe48304" />
-<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 01 51" src="https://github.com/user-attachments/assets/23b44fa0-32e7-4694-a014-bb2a85b4dd01" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-11-04 at 15 39 28" src="https://github.com/user-attachments/assets/64163bf3-cdcd-4699-8c03-d43c7e76c22e" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 01 55" src="https://github.com/user-attachments/assets/db4db8f9-3ec4-44a1-9883-f2563db6a4aa" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 02 05" src="https://github.com/user-attachments/assets/db93af02-82b2-4c49-b567-9ced8e4aac7a" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 31" src="https://github.com/user-attachments/assets/26148506-b42a-4fb9-a231-1c7338b57f6a" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 44" src="https://github.com/user-attachments/assets/8dbdfb60-f8e9-494e-8ddd-a19adad034a8" />
-<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 06 45" src="https://github.com/user-attachments/assets/7ecd9104-6769-4f2e-83ac-4647179e493a" />
-<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 06 39" src="https://github.com/user-attachments/assets/d16eadf1-a0f4-4e4d-b746-2bd56cc1dc0f" />
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-11-04 at 15 39 35" src="https://github.com/user-attachments/assets/8c0dd5c9-cbec-4625-bf33-bda19149795e" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 04 17" src="https://github.com/user-attachments/assets/6b181560-0a61-4c26-b67b-9cee76a04494" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 04 08" src="https://github.com/user-attachments/assets/3345a1ea-262b-4b25-9fd9-37d8861ad621" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 59" src="https://github.com/user-attachments/assets/0dd8be2a-20b6-4bd1-bbe6-a3daba322541" />
 <img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-10-28 at 16 03 47" src="https://github.com/user-attachments/assets/d86bf6e6-680f-42a8-b919-85e60adc4fc0" />
-
+<img width="250" height="541" alt="Simulator Screenshot - iPhone 16e - 2025-11-04 at 15 35 19" src="https://github.com/user-attachments/assets/8f624ed6-b4d0-4518-b3a7-bc36830c170d" />
 </p>
 
 ## 📱 Features
