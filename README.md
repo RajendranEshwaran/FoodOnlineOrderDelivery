@@ -126,7 +126,9 @@ FoodOnlineOrderDelivery/
 │   └── CartItemModel.swift
 ├── Managers/
 │   ├── AuthManager.swift
+    ├── DataManager.swift
 │   ├── MenuManager.swift
+    ├── CartManager.swift
 │   ├── CategoryDataManager.swift
 │   ├── PopularFastFoodManager.swift
 │   └── SuggestedRestaurantsManager.swift
@@ -280,7 +282,7 @@ Place images in Assets.xcassets:
 - [ ] Promo codes and discounts
 - [X] Multi-language support :white_check_mark:
 - [ ] Dark mode support
-- [X] Unit and tests (Only Certain Page for Reference)
+- [X] Unit and tests (Only Certain Page for Reference) :white_check_mark:
 - [ ] Analytics integration
 - [ ] Crash reporting
 
