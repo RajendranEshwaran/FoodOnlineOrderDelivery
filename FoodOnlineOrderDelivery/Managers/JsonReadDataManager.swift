@@ -2,7 +2,7 @@
 //  JsonReadDataManager.swift
 //  FoodOnlineOrderDelivery
 //
-//  Created by Claude on 10/29/25.
+//  Created by Rajendran Eshwaran on 10/29/25.
 //
 
 import Foundation
