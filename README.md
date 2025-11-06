@@ -273,18 +273,14 @@ Place images in Assets.xcassets:
 
 ## 📝 TODO / Future Enhancements
 
-- [ ] Backend API integration
 - [X] JSON data file store & read  :white_check_mark:
-- [ ] Real-time order tracking with WebSocket
-- [ ] Push notifications for order updates
 - [ ] Social media authentication (Facebook, Google, Apple)
 - [ ] Payment gateway integration (Stripe, PayPal)
 - [ ] User reviews and ratings system
 - [ ] Promo codes and discounts
 - [X] Multi-language support :white_check_mark:
 - [ ] Dark mode support
-- [ ] Accessibility improvements
-- [ ] Unit and UI tests
+- [X] Unit and tests (Only Certain Page for Reference)
 - [ ] Analytics integration
 - [ ] Crash reporting
 
