@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-enum AuthState {
+enum AuthState: Hashable {
     case unauthenticated
     case authenticated
     case verifying
