@@ -140,25 +140,6 @@ struct RestaurantView: View {
                         .padding(.horizontal, 5)
                         .background(restaurant.isOpen ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
                         .cornerRadius(20)
-//
-//                        Divider()
-//                            .padding(.vertical, 8)
-/*
-                        // Description Section
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("About")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(.black)
-
-                            Text("Welcome to \(restaurant.name)! We specialize in delivering delicious, high-quality food right to your doorstep. Our chefs prepare each dish with care using fresh ingredients to ensure the best taste and experience for our customers.")
-                                .font(.system(size: 15))
-                                .foregroundColor(.gray)
-                                .lineSpacing(6)
-                        }
-                        .padding(.vertical, 8)
-
-                        Divider()
-                            .padding(.vertical, 8)*/
 
                         // Recent Searches Section
                         VStack(alignment: .leading, spacing: 0) {

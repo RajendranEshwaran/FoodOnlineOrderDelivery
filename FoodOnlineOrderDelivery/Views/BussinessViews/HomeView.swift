@@ -19,19 +19,8 @@ struct HomeView: View {
 
     let dataManager = CategoryDataManager.shared
     private let itemsPerPage = 20
-    
-    // Computed property for time-based greeting
-    private var greetingMessage: String {
-        let hour = Calendar.current.component(.hour, from: Date())
-        switch hour {
-        case 0..<12:
-            return "Good Morning"
-        case 12..<17:
-            return "Good Afternoon"
-        default:
-            return "Good Evening"
-        }
-    }
+    let utilityManager = UtilityManager.shared
+  
 
     var body: some View {
         VStack(spacing: 0) {
@@ -53,7 +42,7 @@ struct HomeView: View {
                     .font(.body)
                     .foregroundColor(.black)
 
-                Text(greetingMessage)
+                Text(utilityManager.greetingMessage)
                     .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
