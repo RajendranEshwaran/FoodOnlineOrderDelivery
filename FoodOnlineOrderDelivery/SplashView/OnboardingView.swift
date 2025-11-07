@@ -15,7 +15,6 @@ struct OnboardingPage {
 
 struct OnboardingView: View {
     @State private var currentPage = 0
-    @State private var showLoginView = false
     @EnvironmentObject private var coordinator: Coordinator
     @EnvironmentObject private var authManager: AuthManager
     let pages: [OnboardingPage] = [
@@ -27,9 +26,8 @@ struct OnboardingView: View {
     ]
 
     var body: some View {
-        //NavigationStack {
-            VStack {
-                TabView(selection: $currentPage) {
+        VStack {
+            TabView(selection: $currentPage) {
                 ForEach(0..<pages.count, id: \.self) { index in
                     VStack(spacing: 30) {
                         ZStack {
@@ -61,7 +59,6 @@ struct OnboardingView: View {
                                     authManager.isNewUser = false
                                 } else {
                                     // First time app launch or not authenticated, go to login
-                                    showLoginView = true
                                     coordinator.setRootPage(page: .login)
                                 }
                             }
@@ -92,9 +89,7 @@ struct OnboardingView: View {
             }
             .tabViewStyle(PageTabViewStyle())
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-            }
-
-       // }
+        }
     }
 }
 
