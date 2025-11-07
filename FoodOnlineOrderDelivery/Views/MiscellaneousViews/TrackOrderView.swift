@@ -45,30 +45,33 @@ struct TrackOrderView: View {
             )
 
             ZStack(alignment: .bottom) {
-                // Map View
-                Map(coordinateRegion: $region, annotationItems: mapLocations) { location in
-                    MapAnnotation(coordinate: location.coordinate) {
-                        VStack {
-                            Image(systemName: location.icon)
-                                .font(.system(size: 24))
-                                .foregroundColor(.white)
-                                .frame(width: 40, height: 40)
-                                .background(location.color)
-                                .clipShape(Circle())
-                                .shadow(radius: 4)
-
-                            if location.showLabel {
-                                Text(location.name)
-                                    .font(.system(size: 10, weight: .semibold))
+                // Map View - iOS 17+ API
+                Map(bounds: MapCameraBounds(centerCoordinateBounds: region)) {
+                    ForEach(mapLocations) { location in
+                        Annotation(location.name, coordinate: location.coordinate) {
+                            VStack {
+                                Image(systemName: location.icon)
+                                    .font(.system(size: 24))
                                     .foregroundColor(.white)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background(Color.black.opacity(0.7))
-                                    .cornerRadius(8)
+                                    .frame(width: 40, height: 40)
+                                    .background(location.color)
+                                    .clipShape(Circle())
+                                    .shadow(radius: 4)
+
+                                if location.showLabel {
+                                    Text(location.name)
+                                        .font(.system(size: 10, weight: .semibold))
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background(Color.black.opacity(0.7))
+                                        .cornerRadius(8)
+                                }
                             }
                         }
                     }
                 }
+                .mapStyle(.standard)
                 .edgesIgnoringSafeArea(.horizontal)
 
                 // Bottom Card with Order Details
