@@ -2,11 +2,10 @@
 //  FoodOnlineOrderDeliveryTests.swift
 //  FoodOnlineOrderDeliveryTests
 //
-//  Created by Rajendran Eshwaran on 10/14/25.
+//  Created by RajayGoms on 11/7/25.
 //
 
 import XCTest
-@testable import FoodOnlineOrderDelivery
 
 final class FoodOnlineOrderDeliveryTests: XCTestCase {
 
@@ -28,7 +27,7 @@ final class FoodOnlineOrderDeliveryTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }

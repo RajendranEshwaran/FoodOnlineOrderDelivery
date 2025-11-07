@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "5DC5C8F6-8C84-4549-9E37-8BCF24E5F8D2",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:FoodOnlineOrderDelivery.xcodeproj",
+      "identifier" : "B4C402582E9EA0F100715410",
+      "name" : "FoodOnlineOrderDelivery"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:FoodOnlineOrderDelivery.xcodeproj",
+        "identifier" : "B4C7617C2EBE9142004B9E8E",
+        "name" : "FoodOnlineOrderDeliveryTests"
+      }
+    }
+  ],
+  "version" : 1
+}

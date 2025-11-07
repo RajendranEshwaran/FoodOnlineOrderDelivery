@@ -250,6 +250,12 @@ struct LoginView: View {
             return false
         }
 
+        // Check for consecutive dots (invalid in email addresses)
+        if email.contains("..") {
+            emailError = "invalid_email".localized()
+            return false
+        }
+
         // Email format validation
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
