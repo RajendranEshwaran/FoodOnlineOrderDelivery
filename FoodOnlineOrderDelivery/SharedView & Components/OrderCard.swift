@@ -2,7 +2,7 @@
 //  OrderCard.swift
 //  FoodOnlineOrderDelivery
 //
-//  Created by RajayGoms on 10/27/25.
+//  Created by Rajendran Eshwaran on 10/27/25.
 //
 
 import SwiftUI
