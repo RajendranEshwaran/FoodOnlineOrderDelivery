@@ -10,7 +10,12 @@ A modern, feature-rich iOS food delivery application built with SwiftUI, offerin
   <img src="https://img.shields.io/badge/NavigationPattern-Coordinator-purple.svg" alt="NavigationPattern">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
-
+<p>
+  <img src="https://img.shields.io/badge/fastlane-%2382bd4e.svg?style=for-the-badge&logo=fastlane&logoColor=black">
+</p>
+<p>  
+  <img src="https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white">
+</p>
 
 ## Demo AppVideo
 
