@@ -37,7 +37,7 @@ class DataManager {
     // MARK: - User Operations
 
     /// Create a new user account
-    func createUser(email: String, name: String, phoneNumber: String, password: String) throws -> UserAccount {
+    func createUser(email: String, name: String, phoneNumber: String, password: String) async throws -> UserAccount {
         guard let context = modelContext else {
             throw DataError.contextNotAvailable
         }
@@ -83,7 +83,7 @@ class DataManager {
     }
 
     /// Authenticate user with email and password
-    func authenticateUser(email: String, password: String) throws -> UserAccount? {
+    func authenticateUser(email: String, password: String) async throws -> UserAccount? {
         guard let user = try findUser(byEmail: email) else {
             return nil
         }
@@ -101,7 +101,7 @@ class DataManager {
     }
 
     /// Update user verification status
-    func updateUserVerification(userId: String, isVerified: Bool) throws {
+    func updateUserVerification(userId: String, isVerified: Bool) async throws {
         guard let context = modelContext else {
             throw DataError.contextNotAvailable
         }

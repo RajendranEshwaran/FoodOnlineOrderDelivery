@@ -2,7 +2,7 @@
 //  MapPinDropView.swift
 //  FoodOnlineOrderDelivery
 //
-//  Created by RajayGoms on 10/27/25.
+//  Created by Rajendran Eshwaran on 10/27/25.
 //
 
 import SwiftUI
@@ -16,13 +16,15 @@ struct MapPinDropView: View {
 
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $region, interactionModes: .all)
-                .onChange(of: region.center.latitude) { _ in
-                    updateCoordinates()
-                }
-                .onChange(of: region.center.longitude) { _ in
-                    updateCoordinates()
-                }
+            // Use the new iOS 17+ Map API with region binding
+            Map(position: .constant(.region(region)))
+                .mapStyle(.standard)
+                .gesture(
+                    DragGesture()
+                        .onEnded { _ in
+                            updateCoordinates()
+                        }
+                )
 
             // Pin in the center
             Image(systemName: "mappin.circle.fill")
